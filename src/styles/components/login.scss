@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Ephesis&display=swap');
+
+.container {
+    max-width: 1200px;
+    width: 90%;
+    margin: auto;
+    padding: 0.1px;
+    height: 100vh;
+    overflow: hidden;
+    color: #660909d8;
+}
+
+.bg__kurenai {
+    // background: linear-gradient(to bottom, #870000, #190a05);
+    background-image: linear-gradient( #020000d8, #660909d8), url('../../assets/bg-image-04.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login__card {
+    width: 600px;
+    height: 500px;
+    background: #fff;
+    padding: 12px;
+    margin: 50px auto;
+    border-radius: 5px;
+    box-shadow: 3px 3px 10px 3px rgba(3, 3, 3, 0.5);
+}
+
+.login__title {
+    font-family: 'Ephesis', cursive;
+    text-align: center;
+    font-size: 50px;
+    color: crimson;
+}
+
+.login__form {
+    display: block;
+    padding: 15px;
+    margin-top: 50px;
+}
+
+.login__form-input-group {
+    display: inherit;
+}
+
+.login__form-input-text {
+    display: inherit;
+}
+
+.login__form-input {
+    display: inherit;
+    margin-bottom: 15px;
+    width: 100%;
+    height: 40px;
+}
+
+.login__form-btn {
+    display: block;
+    width: 100%;
+    height: 50px;
+    margin: 30px auto;
+    margin-top: 50px;
+    color: #811111;
+    background-color: #fff;
+    outline: 1px solid #811111;
+    border-radius: 3px;
+    border: none;
+    transition: all 0.5s ease;
+}
+
+.login__form-btn:hover {
+    display: block; 
+    color: #fff;
+    background-color: #811111;
+    transition: all 0.5s ease;
+}
+
+.login__alert {
+    color: #fa0000;
+}
+
+.login__access-alert {
+    display: block;
+    background: rgb(255, 3, 3);
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 15px;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+
+}
