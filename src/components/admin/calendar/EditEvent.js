@@ -29,52 +29,15 @@ import Swal from 'sweetalert2';
 //Yup Library | Doc: https://www.npmjs.com/package/yup
 import * as Yup from 'yup';
 
-
 moment.locale('Es-mx');
-//  datos a enviar ------------------->
-//          Section 2
-//         insta: String,
-//         title: String,
-//         imgUrl: String,
-//         start: DateTime,
-//         end: DateTime,
-//         bgColor: String,
-
-//          Section 3
-//         initPayment: Int,
-//         totalPayment: Int,
-
-//          Section 1
-//         rut: String,
-//         name: String,
-//         email: String,
-//         address: String,
-//         birdDate: DateTime,
-//         phoneNumber: String,
 
 export const EditEvent = () => {
 
     //HOOKS INIT
     const { data: userAuth, loading: loadUserAuth } = useQuery(GET_USER_AUTH);
-    const [ updateEvent ] = useMutation(UPDATE_EVENT
-    //     ,{
-    //     update(cache, { data: { updateEvent } }){
-    //         //obtener el objeto de cache
-    //         const { getEvents } = cache.readQuery({ query: GET_EVENTS })
-    //         //reescribir ese objeto
-    //         cache.writeQuery({
-    //             query: GET_EVENTS,
-    //             data: {
-    //                 getEvents: [...getEvents, updateEvent]
-    //             }
-    //         })
-    //     }
-    // }
-    );
+    const [ updateEvent ] = useMutation(UPDATE_EVENT);
     const history = useHistory();
     const dispatch = useDispatch();
-    // const dateFocus = useSelector(state => state.event.dateFocus);
-
 
     const eventFocus = useSelector(state => state.event.eventFocus);
     const { data: getEvent, loading: loadGetEvent } = useQuery(GET_EVENT, {
