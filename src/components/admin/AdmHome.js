@@ -80,8 +80,6 @@ export const AdmHome = () => {
     if (loadPost) return null;
     if (!postData) return null;
 
-    console.log(postData);
-
     return (
         <div className="home">
             <div className="home__s1">

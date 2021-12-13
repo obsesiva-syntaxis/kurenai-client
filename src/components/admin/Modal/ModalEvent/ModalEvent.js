@@ -6,15 +6,12 @@ import Modal from 'react-modal';
 
 //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_EVENT } from '../../graphql/GET_EVENT';
-import { DELETE_EVENT } from '../../graphql/DELETE_EVENT';
+import { GET_EVENT } from '../../../../graphql/GET_EVENT';
+import { DELETE_EVENT } from '../../../../graphql/DELETE_EVENT';
 
 //Redux Syntax | Doc: https://es.redux.js.org/docs/
-import { useDispatch, useSelector } from 'react-redux';
-import { modalState } from '../../redux/actions/modal';
-
-//React Router Library | Doc: https://reactrouter.com/web/guides/quick-start
-import { useHistory } from 'react-router';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { modalState } from '../../../../redux/actions/modal';
 
 //Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
 import Swal from 'sweetalert2';
@@ -23,37 +20,32 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 
 //React-PDF Library | Doc: https://react-pdf.org/advanced#on-the-fly-rendering
-import { PDFDownloadLink, Document, Page, Text, Image, View } from '@react-pdf/renderer';
-import { styles } from '../../functions/pdfStyles';
+import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer';
+import { styles } from '../../../../functions/pdfStyles';
+// import { MyDoc } from '../../../../utils/PDFgenerator';
 
-
+import './ModalEvent.scss';
 
 Modal.setAppElement('#root');
 
-export const AdmCalendarModal = () => {
+export default function ModalEvent(props) {
 
-    const [deleteEvent] = useMutation(DELETE_EVENT);
-    const history = useHistory();
-    const isOpen = useSelector(state => state.modal.state);
-    const eventFocus = useSelector(state => state.event.eventFocus);
-    const dispatch = useDispatch();
+    const { showModal, setShowModal, eventSelected, refetch, setType, handleSetupEvent } = props;
 
-    const { data: getEvent, loading: loadGetEvent } = useQuery(GET_EVENT, {
+    const [ deleteEvent ] = useMutation(DELETE_EVENT);
+
+    const { data, loading } = useQuery(GET_EVENT, {
         variables: {
-            id: eventFocus.id
+            id: eventSelected
         }
     });
-
-    if (loadGetEvent) return null;
-    if (!getEvent) return null;
-
     const closeModal = () => {
-        dispatch(modalState(false));
+        setShowModal(false);
     }
 
     const handleEditEvent = () => {
-        dispatch(modalState(false));
-        history.push('/adm/editevent');
+        setShowModal(false);
+        handleSetupEvent('edit');
     }
 
     const handleDeleteEvent = () => {
@@ -70,7 +62,7 @@ export const AdmCalendarModal = () => {
                 try {
                     deleteEvent({
                         variables: {
-                            id: getEvent.getEventById.id
+                            id: getEventById.id
                         }
                     })
                     Swal.fire(
@@ -79,22 +71,25 @@ export const AdmCalendarModal = () => {
                         'success'
                     ).then(result => {
                         if (result.isConfirmed) {
-                            history.push('/adm/home');
-                            window.location.reload();
+                            refetch();
+                            setShowModal(false);
                         }
                     })
                 } catch (err) {
                     console.log(err);
                 }
-
             }
         });
 
     }
 
+    if (loading) return null;
+    if (!data) return null;
+
+    const { getEventById } = data;
+    if(!getEventById) return null;
     // const edad = !formatDate ? moment().diff(formatDate, 'years') : 'No ingresado';
-    console.log(getEvent.getEventById.birdDate );
-    console.log();
+    // PDF VIEWER
     const MyDoc = () => (
         <Document>
             <Page style={styles.body}>
@@ -127,17 +122,17 @@ export const AdmCalendarModal = () => {
                 <View style={styles.table2}>
                     <View style={styles.infoFlex}>
                         <View style={styles.infoBlock}>
-                            <Text style={styles.textInfo}>Nombre: {getEvent.getEventById.name}</Text>
-                            <Text style={styles.textInfo}>Rut: {getEvent.getEventById.rut}</Text>
-                            <Text style={styles.textInfo}>Dirección: {getEvent.getEventById.address}</Text>
+                            <Text style={styles.textInfo}>Nombre: {getEventById.name}</Text>
+                            <Text style={styles.textInfo}>Rut: {getEventById.rut}</Text>
+                            <Text style={styles.textInfo}>Dirección: {getEventById.address}</Text>
                         </View>
                         <View style={styles.infoBlock}>
-                            <Text style={styles.textInfo}>Edad: {moment().diff(getEvent.getEventById.birdDate, 'years')}</Text>
-                            <Text style={styles.textInfo}>Fecha Nacimiento: {moment(getEvent.getEventById.birdDate).format('DD [de] MMMM [del] YYYY')}</Text>
-                            <Text style={styles.textInfo}>Email: {getEvent.getEventById.email}</Text>
+                            <Text style={styles.textInfo}>Edad: {moment().diff(getEventById.birdDate, 'years')}</Text>
+                            <Text style={styles.textInfo}>Fecha Nacimiento: {moment(getEventById.birdDate).format('DD [de] MMMM [del] YYYY')}</Text>
+                            <Text style={styles.textInfo}>Email: {getEventById.email}</Text>
                         </View>
                         <View style={styles.infoBlock}>
-                            <Text style={styles.textInfo}>Teléfono: {getEvent.getEventById.phoneNumber}</Text>
+                            <Text style={styles.textInfo}>Teléfono: {getEventById.phoneNumber}</Text>
                         </View>
                     </View>
 
@@ -166,7 +161,7 @@ export const AdmCalendarModal = () => {
 
                         </View>
                         <View style={styles.infoBlock}>
-                        <View style={styles.textInfoFlex}>
+                            <View style={styles.textInfoFlex}>
                                 <Text style={styles.textInfo1}>Aspirina los últimos días</Text><Text style={styles.textInfo2}>___</Text>
                             </View>
                             <View style={styles.textInfoFlex}>
@@ -181,7 +176,7 @@ export const AdmCalendarModal = () => {
 
                         </View>
                         <View style={styles.infoBlock}>
-                        <View style={styles.textInfoFlex}>
+                            <View style={styles.textInfoFlex}>
                                 <Text style={styles.textInfo1}>Consumo de drogas las últimas horas</Text><Text style={styles.textInfo2}>___</Text>
                             </View>
                             <View style={styles.textInfoFlex}>
@@ -193,7 +188,7 @@ export const AdmCalendarModal = () => {
 
                         </View>
                         <View style={styles.infoBlock}>
-                        <View style={styles.textInfoFlex}>
+                            <View style={styles.textInfoFlex}>
                                 <Text style={styles.textInfo1}>Tendencia a desmayos</Text><Text style={styles.textInfo2}>___</Text>
                             </View>
                             <View style={styles.textInfoFlex}>
@@ -279,7 +274,7 @@ export const AdmCalendarModal = () => {
                     Si en los días posteriores a la aplicación apareciese cualquier reacción o alteración en la zona tatuada se recomienda consultar a un médico.
                 </Text>
                 <Text style={styles.finalText}>
-                    Yo {getEvent.getEventById.name} (cliente) con rut {getEvent.getEventById.rut} declaro en este acto haber sido informado por
+                    Yo {getEventById.name} (cliente) con rut {getEventById.rut} declaro en este acto haber sido informado por
                     escrito y verbalmente sobre el procedimiento y resultados esperables, sus características, potenciales riesgos y/o complicaciones generales y el
                     cuidado del tatuaje. Acepto que el tatuador identificado en este documento realice el procedimiento de tatuaje propuesto.
                     Y, como prueba del mismo firmo el presente documento en presencia del tatuador, cuya firma de compromiso se acompaña.
@@ -307,84 +302,82 @@ export const AdmCalendarModal = () => {
         </Document>
     );
 
-    return (
 
-        <Modal className="modal" overlayClassName="modal-fondo" isOpen={isOpen} closeTimeoutMS={200}
-            // onAfterOpen={afterOpenModal} 
-            onRequestClose={closeModal}
-            // style={customStyles}
-            contentLabel="Example Modal">
+
+    return (
+        <Modal className="modal" overlayClassName="modal-fondo" isOpen={showModal} closeTimeoutMS={200} onRequestClose={closeModal} >
 
             <h1 className="modal__title">Información Evento</h1>
             <div className="modal__body">
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Nombre del evento: </label>
-                    <label className="modal__body-text">{getEvent.getEventById.title}</label>
+                    <label className="modal__body-text">{getEventById.title}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Instagram: </label>
-                    <label className="modal__body-text">{getEvent.getEventById.insta}</label>
+                    <label className="modal__body-text">{getEventById.insta}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Día de la sesión: </label>
-                    <label className="modal__body-text">{moment(getEvent.getEventById.start).format('DD/MM/YYYY')}</label>
+                    <label className="modal__body-text">{moment(getEventById.start).format('DD/MM/YYYY')}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Abono: </label>
-                    <label className="modal__body-text">${getEvent.getEventById.initPayment}</label>
+                    <label className="modal__body-text">${getEventById.initPayment}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Total a pagar: </label>
-                    <label className="modal__body-text">${getEvent.getEventById.totalPayment}</label>
+                    <label className="modal__body-text">${getEventById.totalPayment}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Descripción:</label>
-                    <label className="modal__body-text-area">{getEvent.getEventById.desc}</label>
+                    <label className="modal__body-text-area">{getEventById.desc}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Rut: </label>
-                    <label className="modal__body-text">{getEvent.getEventById.rut}</label>
+                    <label className="modal__body-text">{getEventById.rut}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Nombre: </label>
-                    <label className="modal__body-text">{getEvent.getEventById.name}</label>
+                    <label className="modal__body-text">{getEventById.name}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Email: </label>
-                    <label className="modal__body-text">{getEvent.getEventById.email}</label>
+                    <label className="modal__body-text">{getEventById.email}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Dirección: </label>
-                    <label className="modal__body-text">{getEvent.getEventById.address}</label>
+                    <label className="modal__body-text">{getEventById.address}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Edad del Cliente: </label>
-                    <label className="modal__body-text">{moment().diff(getEvent.getEventById.birdDate, 'years')}</label>
+                    <label className="modal__body-text">{getEventById.birdDate === null ? 'No asignado' : moment().diff(getEventById.birdDate, 'years')}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Teléfono: </label>
-                    <label className="modal__body-text">{getEvent.getEventById.phoneNumber}</label>
+                    <label className="modal__body-text">{getEventById.phoneNumber}</label>
                 </div>
 
                 <div className="modal__body-group">
                     <label className="modal__body-text">Creado por: </label>
-                    <label className="modal__body-text">{getEvent.getEventById.userName}</label>
+                    <label className="modal__body-text">{getEventById.userName}</label>
                 </div>
 
 
             </div>
+
             <div className="modal__footer">
 
                 <PDFDownloadLink document={<MyDoc />} fileName="somename.pdf">

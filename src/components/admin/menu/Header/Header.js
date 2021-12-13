@@ -3,12 +3,14 @@ import React from 'react';
 
 //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { useQuery } from '@apollo/client';
-import { GET_USER_AUTH } from '../../../graphql/GET_USER_AUTH';
+import { GET_USER_AUTH } from '../../../../graphql/GET_USER_AUTH';
 
 //React Router Library | Doc: https://reactrouter.com/web/guides/quick-start
 import { useHistory } from 'react-router-dom';
 
-export const Header = () => {
+import './Header.scss';
+
+export default function Header(){
 
     const history = useHistory();
 

@@ -12,8 +12,8 @@ import 'moment/locale/es-mx'
 import { useFormik } from 'formik';
 
 //Redux Syntax | Doc: https://es.redux.js.org/docs/
-import { useDispatch, useSelector } from 'react-redux';
-import { dateFocusAction } from '../../../redux/actions/event';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { dateFocusAction } from '../../../redux/actions/event';
 
 //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { useMutation, useQuery } from '@apollo/client';
@@ -31,40 +31,55 @@ import * as Yup from 'yup';
 
 moment.locale('Es-mx');
 
-export const EditEvent = () => {
+export default function EditEventForm(props) {
+    const { eventSelected, setHandleEvent, setShowModal } = props;
 
-    //HOOKS INIT
     const { data: userAuth, loading: loadUserAuth } = useQuery(GET_USER_AUTH);
-    const [ updateEvent ] = useMutation(UPDATE_EVENT);
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const [updateEvent] = useMutation(UPDATE_EVENT, {
+        update(cache, { data: { updateEvent } }) {
+            const { getEventById } = cache.readQuery({
+                query: GET_EVENT,
+                variables: {
+                    id: eventSelected
+                },
+            });
 
-    const eventFocus = useSelector(state => state.event.eventFocus);
+            cache.writeQuery({
+                query: GET_EVENT,
+                variables: { id: eventSelected },
+                data: {
+                    getEventById: { 
+                        insta: updateEvent.insta,
+                        title: updateEvent.title,
+                        imgUrl: updateEvent.imgUrl,
+                        start: updateEvent.start,
+                        end: updateEvent.end,
+                        bgColor: updateEvent.bgColor,
+                        initPayment: updateEvent.initPayment,
+                        totalPayment: updateEvent.totalPayment,
+                        rut: updateEvent.rut,
+                        name: updateEvent.name,
+                        email: updateEvent.email,
+                        address: updateEvent.address,
+                        birdDate: updateEvent.birdDate,
+                        phoneNumber: updateEvent.phoneNumber,
+                        user: updateEvent.user,
+                        desc: updateEvent.desc,
+                        hours: updateEvent.hours,
+                    }
+                }
+            })
+        }
+    });
+
     const { data: getEvent, loading: loadGetEvent } = useQuery(GET_EVENT, {
         variables: {
-            id: eventFocus.id
+            id: eventSelected
         }
     });
 
     const formik = useFormik({
-        initialValues: { 
-            insta: getEvent.getEventById.insta, 
-            title: getEvent.getEventById.title, 
-            imgUrl: '', 
-            start: moment(getEvent.getEventById.start).format('dddd D [de] MMMM [del] YYYY'), 
-            end: getEvent.getEventById.end, 
-            bgColor: getEvent.getEventById.bgColor, 
-            initPayment: getEvent.getEventById.initPayment, 
-            totalPayment: getEvent.getEventById.totalPayment, 
-            rut: getEvent.getEventById.rut, 
-            name: getEvent.getEventById.name, 
-            email: getEvent.getEventById.email, 
-            address: getEvent.getEventById.address, 
-            birdDate: getEvent.getEventById.birdDate, 
-            phoneNumber: getEvent.getEventById.phoneNumber,
-            desc: getEvent.getEventById.desc,
-            hours: getEvent.getEventById.hours,
-        },
+        initialValues: initialValues(getEvent),
         validationSchema: Yup.object({
             insta: Yup.string().required('Instagram es obligatorio.'),
             title: Yup.string().required('Titulo del evento es obligatorio.'),
@@ -90,14 +105,12 @@ export const EditEvent = () => {
                 bgColor: '#DC143C',
                 user: userAuth.getUserAuth.id
             }
-            
-            const { insta, title, imgUrl, start, end, bgColor, initPayment, totalPayment, rut, name, email, address, birdDate, phoneNumber, user, desc, hours } = finalValues;
 
             try {
-                await updateEvent({                   
+                await updateEvent({
                     variables: {
-                        id: getEvent.getEventById.id,
-                        input: { insta, title, imgUrl, start, end, bgColor, initPayment, totalPayment, rut, name, email, address, birdDate, phoneNumber, user, desc, hours }
+                        id: eventSelected,
+                        input: finalValues
                     }
                 });
                 Swal.fire({
@@ -105,8 +118,8 @@ export const EditEvent = () => {
                     title: 'Evento Editado!',
                 }).then(result => {
                     if (result.isConfirmed) {
-                        history.push('/adm/home');
-                        window.location.reload();
+                        setHandleEvent('');
+                        setShowModal(true);
                     }
                 });
 
@@ -125,8 +138,8 @@ export const EditEvent = () => {
     if (!getEvent) return null;
 
     const handleReturn = () => {
-        dispatch(dateFocusAction(''));
-        history.push('/adm/calendar');
+        setHandleEvent('');
+        setShowModal(true);
     }
     return (
         <form className="form" onSubmit={formik.handleSubmit}>
@@ -203,10 +216,32 @@ export const EditEvent = () => {
                         <input className="event__input-valor" type="number" onBlur={formik.handleBlur} name="totalPayment" value={formik.values.totalPayment} onChange={formik.handleChange} />
                     </div>
 
-                    <button className="event__btn-success">Ingresar</button>
+                    <button type="submit" className="event__btn-success">Ingresar</button>
                     <button onClick={handleReturn} className="event__btn-alert">Regresar</button>
                 </div>
             </div>
         </form>
     )
+}
+
+
+function initialValues(getEvent) {
+    return {
+        insta: getEvent.getEventById.insta,
+        title: getEvent.getEventById.title,
+        imgUrl: '',
+        start: moment(getEvent.getEventById.start).format('dddd D [de] MMMM [del] YYYY'),
+        end: getEvent.getEventById.end,
+        bgColor: getEvent.getEventById.bgColor,
+        initPayment: getEvent.getEventById.initPayment,
+        totalPayment: getEvent.getEventById.totalPayment,
+        rut: getEvent.getEventById.rut,
+        name: getEvent.getEventById.name,
+        email: getEvent.getEventById.email,
+        address: getEvent.getEventById.address,
+        birdDate: getEvent.getEventById.birdDate,
+        phoneNumber: getEvent.getEventById.phoneNumber,
+        desc: getEvent.getEventById.desc,
+        hours: getEvent.getEventById.hours,
+    }
 }

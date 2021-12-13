@@ -12,8 +12,8 @@ import 'moment/locale/es-mx';
 import { useFormik } from 'formik';
 
 //Redux Syntax | Doc: https://es.redux.js.org/docs/
-import { useDispatch, useSelector } from 'react-redux';
-import { dateFocusAction } from '../../../redux/actions/event';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { dateFocusAction } from '../../../redux/actions/event';
 
 //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { useMutation, useQuery } from '@apollo/client';
@@ -27,33 +27,16 @@ import Swal from 'sweetalert2';
 //Yup Library | Doc: https://www.npmjs.com/package/yup
 import * as Yup from 'yup';
 
+import './NewEventForm.scss';
 
 moment.locale('Es-mx');
-//  datos a enviar ------------------->
-//          Section 2
-//         insta: String,
-//         title: String,
-//         imgUrl: String,
-//         start: DateTime,
-//         end: DateTime,
-//         bgColor: String,
 
-//          Section 3
-//         initPayment: Int,
-//         totalPayment: Int,
+export default function NewEvent( props ) {
 
-//          Section 1
-//         rut: String,
-//         name: String,
-//         email: String,
-//         address: String,
-//         birdDate: DateTime,
-//         phoneNumber: String,
-
-export const NewEvent = () => {
+    const { dateSelected, setHandleEvent, setDateSelected } = props;
 
     //HOOKS INIT
-    const [ createEvent ] = useMutation(CREATE_EVENT, {
+    const [createEvent] = useMutation(CREATE_EVENT, {
         update(cache, { data: { createEvent } }) {
             //obtener el objeto de cache
             const { getEvents } = cache.readQuery({ query: GET_EVENTS })
@@ -67,11 +50,9 @@ export const NewEvent = () => {
         }
     });
     const { data, loading } = useQuery(GET_USER_AUTH);
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const dateFocus = useSelector(state => state.event.dateFocus);
+
     const formik = useFormik({
-        initialValues: { insta: '', title: '', imgUrl: '', start: '', end: '', bgColor: '#DC143C', initPayment: '', totalPayment: '', rut: '', name: '', email: '', address: '', birdDate: '', phoneNumber: '', date: dateFocus, desc: '', hours: '' },
+        initialValues: initialValues(),
         validationSchema: Yup.object({
             insta: Yup.string().required('Instagram es obligatorio.'),
             title: Yup.string().required('Titulo del evento es obligatorio.'),
@@ -88,29 +69,27 @@ export const NewEvent = () => {
         onSubmit: async values => {
             const finalValues = {
                 ...values,
-                start: moment(values.date).hours(11).format(),
-                end: moment(values.date).hours(11).add(values.hours, 'h').format(),
+                start: moment(dateSelected).hours(11).format(),
+                end: moment(dateSelected).hours(11).add(values.hours, 'h').format(),
                 birdDate: !values.birdDate === '' ? moment(values.birdDate) : null,
                 imgUrl: '',
                 user: data.getUserAuth.id,
                 userName: data.getUserAuth.name,
             }
-
-            const { insta, title, imgUrl, start, end, bgColor, initPayment, totalPayment, rut, name, email, address, birdDate, phoneNumber, desc, user, userName, hours } = finalValues;
+            // const { insta, title, imgUrl, start, end, bgColor, initPayment, totalPayment, rut, name, email, address, birdDate, phoneNumber, desc, user, userName, hours } = finalValues;
             try {
-                await createEvent({
+                const result = await createEvent({
                     variables: {
-                        input: { insta, title, imgUrl, start, end, bgColor, initPayment, totalPayment, rut, name, email, address, birdDate, phoneNumber, desc, user, userName, hours }
+                        input: finalValues
                     }
                 });
-
                 Swal.fire({
                     icon: 'success',
                     title: 'Evento Creado!',
                 }).then(result => {
                     if (result.isConfirmed) {
-                        history.push('/adm/home');
-                        // window.location.reload();
+                        setDateSelected('');
+                        setHandleEvent('');
                     }
                 });
 
@@ -124,14 +103,13 @@ export const NewEvent = () => {
         }
     });
 
-
-    const date = moment(dateFocus).format('dddd D [de] MMMM [del] YYYY');
+    const date = moment(dateSelected).format('dddd D [de] MMMM [del] YYYY');
 
     if (loading) return null;
 
     const handleReturn = () => {
-        dispatch(dateFocusAction(''));
-        history.push('/adm/calendar');
+        setDateSelected('');
+        setHandleEvent('');
     }
 
     return (
@@ -217,4 +195,25 @@ export const NewEvent = () => {
         </form>
 
     )
+}
+
+function initialValues() {
+    return { 
+        insta: '',
+        title: '',
+        imgUrl: '',
+        start: '',
+        end: '',
+        bgColor: '#DC143C',
+        initPayment: '',
+        totalPayment: '',
+        rut: '',
+        name: '',
+        email: '',
+        address: '',
+        birdDate: '',
+        phoneNumber: '',
+        desc: '',
+        hours: '',
+    }
 }

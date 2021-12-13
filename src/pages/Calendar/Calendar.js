@@ -1,5 +1,5 @@
 //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
-import React from 'react';
+import React, { useState } from 'react';
 
 //Moment Library | Doc: https://momentjs.com/docs/
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -11,7 +11,7 @@ import moment from 'moment';
 // import { modalState } from '../../redux/actions/modal';
 
 //React Router Library | Doc: https://reactrouter.com/web/guides/quick-start
-import { useHistory } from 'react-router';
+// import { useHistory } from 'react-router';
 
 //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { useQuery } from '@apollo/client';
@@ -19,7 +19,11 @@ import { GET_EVENTS } from '../../graphql/GET_EVENTS';
 
 //Own Functions Syntaxis
 import { parseDateEvents } from '../../functions/parseDateEvents';
-// import { AdmCalendarModal } from './AdmCalendarModal';
+
+import ModalEvent from '../../components/admin/Modal/ModalEvent';
+import NewEventForm from '../../components/admin/NewEventForm';
+import EditEventForm from '../../components/admin/EditEventForm'
+
 
 import './Calendar.scss';
 //Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
@@ -48,14 +52,17 @@ export const messages = {
     showMore: total => `+ Ver más (${total})`
 };
 
-export default function AdmCalendar(){
+export default function AdmCalendar() {
 
-    const history = useHistory()
+    const [showMode, setShowMode] = useState('calendar');
+    const [dateSelected, setDateSelected] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [eventSelected, setEventSelected] = useState('');
+    const [handleEvent, setHandleEvent] = useState('');
     // const dispatch = useDispatch();
-    const { data, loading } = useQuery(GET_EVENTS);
+    const { data, loading, refetch } = useQuery(GET_EVENTS);
 
-    if(loading) return null;
-    
+    if (loading) return null;
     const eventParsed = parseDateEvents(data.getEvents);
 
     const eventStyleGetter = (event) => {
@@ -71,37 +78,61 @@ export default function AdmCalendar(){
     }
 
     const onDoubleclick = (event) => {
-        // dispatch(modalState(true));
+        const { id } = event;
+        setEventSelected( id );
+        setShowModal(true);
     }
-    
+
     const onSelectEvent = (event) => {
-        // dispatch( eventFocusAction(event) );
+        
     }
 
     const onSelectSlot = (event) => {
-        // dispatch( dateFocusAction(event.start) );
-        history.push('/newevent');
+        const { start } = event;
+        handleSetupEvent('new', start);
     }
 
-
+    const handleSetupEvent = (type, date) => {
+        switch (type) {
+            case 'edit':
+                setShowMode('');
+                setHandleEvent(<EditEventForm eventSelected={ eventSelected } setShowModal={ setShowModal } setHandleEvent={ setHandleEvent } />);
+                break;
+            case 'new':
+                console.log(dateSelected);
+                setHandleEvent(<NewEventForm dateSelected={ date } setHandleEvent={ setHandleEvent } setDateSelected={ setDateSelected }  />);
+                break;
+            default:
+                break;
+        }
+    }
+    
     return (
         <div className="calendar">
-            <Calendar 
-            className="calendar__main"
-                selectable={ true }
-                localizer={ localizer }
-                events={ eventParsed }
-                startAccessor="start"
-                endAccessor="end"
-                messages={ messages }
-                eventPropGetter={ eventStyleGetter }
-                onDoubleClickEvent={ onDoubleclick }
-                onSelectEvent={ onSelectEvent }
-                onSelectSlot={ onSelectSlot }
-                views={['month', 'week', 'day']}
-            />
+            { handleEvent === '' ?  <Calendar 
+                    className="calendar__main"
+                        selectable={ true }
+                        localizer={ localizer }
+                        events={ eventParsed }
+                        startAccessor="start"
+                        endAccessor="end"
+                        messages={ messages }
+                        eventPropGetter={ eventStyleGetter }
+                        onDoubleClickEvent={ onDoubleclick }
+                        onSelectEvent={ onSelectEvent }
+                        onSelectSlot={ onSelectSlot }
+                        views={['month', 'week', 'day']}
+                    /> : handleEvent
+            }
 
-            {/* <AdmCalendarModal /> */}
+            <ModalEvent 
+                showModal={ showModal } 
+                eventSelected={ eventSelected } 
+                setShowModal={ setShowModal } 
+                refetch={ refetch } 
+                handleSetupEvent= { handleSetupEvent }
+            />
+            
         </div>
     )
 }

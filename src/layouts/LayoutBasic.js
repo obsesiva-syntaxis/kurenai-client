@@ -1,6 +1,8 @@
 import React from 'react';
-import { Header } from '../components/admin/menu/Header';
+import Header from '../components/admin/menu/Header';
 import Sidebar from '../components/admin/menu/Sidebar';
+
+import './LayoutBasic.scss';
 
 export default function LayoutBasic(props) {
     const { children } = props;
