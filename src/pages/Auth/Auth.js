@@ -9,10 +9,10 @@ export default function Auth() {
 
 
     return (
-        <div className="bg__kurenai">
-            <div className="container">
-                <div className="auth__card">
-                    <h1 className="auth__card-title">
+        <div className="auth">
+            <div className="auth__container">
+                <div className="auth__container-card">
+                    <h1>
                         Kurenai
                     </h1>
 

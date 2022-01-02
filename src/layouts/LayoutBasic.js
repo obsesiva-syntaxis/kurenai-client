@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../components/admin/menu/Header';
-import Sidebar from '../components/admin/menu/Sidebar';
+import Header from '../components/admin/Menu/Header';
+import Sidebar from '../components/admin/Menu/Sidebar';
 
 import './LayoutBasic.scss';
 

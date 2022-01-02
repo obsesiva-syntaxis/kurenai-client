@@ -1,59 +1,59 @@
 @import '../../styles/style.scss';
 
-.login__form {
+.login-form {
     display: block;
     padding: 15px;
     margin-top: 50px;
+
+    &__input-group {
+        display: inherit;
+
+        &-alert {
+            color: #fa0000;
+        }
+
+        &-text {
+            display: inherit;
+        }
+
+        input {
+            display: inherit;
+            margin-bottom: 15px;
+            width: 100%;
+            height: 40px;
+        }
+    }
+
+    &__btn {
+        display: block;
+        width: 100%;
+        height: 50px;
+        margin: 30px auto;
+        margin-top: 50px;
+        color: #811111;
+        background-color: #fff;
+        outline: 1px solid #811111;
+        border-radius: 3px;
+        border: none;
+        transition: all 0.5s ease;
+
+        &:hover {
+            display: block; 
+            color: #fff;
+            background-color: #811111;
+            transition: all 0.5s ease;
+        }
+    }
+
+    &__access-alert {
+        display: block;
+        background: rgb(255, 3, 3);
+        border-radius: 5px;
+        width: 100%;
+        margin-top: 15px;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+    }
 }
 
-.login__form-input-group {
-    display: inherit;
-}
-
-.login__form-input-text {
-    display: inherit;
-}
-
-.login__form-input {
-    display: inherit;
-    margin-bottom: 15px;
-    width: 100%;
-    height: 40px;
-}
-
-.login__form-btn {
-    display: block;
-    width: 100%;
-    height: 50px;
-    margin: 30px auto;
-    margin-top: 50px;
-    color: #811111;
-    background-color: #fff;
-    outline: 1px solid #811111;
-    border-radius: 3px;
-    border: none;
-    transition: all 0.5s ease;
-}
-
-.login__form-btn:hover {
-    display: block; 
-    color: #fff;
-    background-color: #811111;
-    transition: all 0.5s ease;
-}
-
-.login__alert {
-    color: #fa0000;
-}
-
-.login__access-alert {
-    display: block;
-    background: rgb(255, 3, 3);
-    border-radius: 5px;
-    width: 100%;
-    margin-top: 15px;
-    color: #fff;
-    padding: 15px;
-    text-align: center;
-
-}

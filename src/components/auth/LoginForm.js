@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 
 //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { useMutation } from '@apollo/client';
-import { AUTH_USER } from '../../graphql/AUTH_USER';
+import { AUTH_USER } from '../../graphql/user';
 
 import useAuth from '../../hooks/useAuth';
 import { setToken, decodeToken } from '../../utils/token';
@@ -37,6 +37,7 @@ export default function LoginForm() {
                 const { token } = data.authUser;
                 setToken(token);
                 setUser(decodeToken(token));
+                console.log(token);
             } catch (err) {
                 setError(err.message);
             }
@@ -44,8 +45,8 @@ export default function LoginForm() {
     });
 
     return (
-        <form className="login__form" onSubmit={formik.handleSubmit}>
-            <div className="login__form-input-group">
+        <form className="login-form" onSubmit={formik.handleSubmit}>
+            <div className="login-form__input-group">
                 {
                     formik.touched.email && formik.errors.email ? (
                         <label className="login__alert">{formik.errors.email}</label>
@@ -54,37 +55,27 @@ export default function LoginForm() {
 
                     )
                 }
-                <input className="login__form-input"
-                    type="text"
-                    id="email"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} />
+                <input type="text" id="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
             </div>
 
-            <div className="login__form-input-group">
+            <div className="login-form__input-group">
                 {
                     formik.touched.password && formik.errors.password ? (
-                        <label className="login__alert">{formik.errors.password}</label>
+                        <label className="login-form__input-group-alert">{formik.errors.password}</label>
                     ) : (
-                        <label className="login__form-text">Password</label>
+                        <label className="login-form__input-group-txt">Password</label>
 
                     )
                 }
-                <input className="login__form-input"
-                    type="password"
-                    id="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} />
+                <input  type="password" id="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
             </div>
 
-            <button className="login__form-btn" type="submit">
+            <button className="login-form__btn" type="submit">
                 Aceptar
             </button>
 
             {
-                error && <p className="submit-error">{error}</p>
+                error && <p className="login-form__access-alert">{error}</p>
             }
 
         </form>

@@ -1,20 +1,7 @@
 @import '../../../../styles/style.scss';
 
 
-/* Modal */
-.ReactModalPortal > div{
-    opacity: 0;
-}
-
-.ReactModalPortal .ReactModal__Overlay {
-    width: 100vw;
-    height: 100vh;
-    transition: opacity .2s ease-in-out;
-    z-index: 999;
-    
-}
-
-.modal {
+.modal-event {
     display: flex;
     width: 400px;
     height: 90%;
@@ -28,7 +15,152 @@
     grid-template-rows: 30px 1fr 100px;
     overflow: hidden;
     z-index: 10;
+
+    &__title {
+        font-family: $font-title;
+        text-align: center;
+        grid-column: 1/2;
+        grid-row: 1/2;
+    }
+
+    &__body {
+        padding: 25px;
+        grid-column: 1/2;
+        grid-row: 2/3;
+
+        div {
+            display: flex;
+            justify-content: space-between;
+
+            label {
+                padding: 5px;
+                font-family: $font-info;
+            }
+
+            p {
+                margin-top: 0;
+                margin-bottom: 0;
+                width: 200px;
+                height: 30px;
+                padding: 5px;
+                overflow: auto;
+                overflow-x: hidden;
+                text-align: right;
+            }
+        }
+        
+    }
+
+    &__footer {
+        // outline: 3px solid crimson;
+        // width: 100%;
+        // height: 100%;
+        grid-column: 1/2;
+        grid-row: 3/4;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 1fr;
+        // justify-content: center;
+        padding: 10px;
+        gap: 5px;
+        // flex-wrap: wrap-reverse;
+
+        &-btn-download {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: 1px solid crimson;
+            background: #fff;
+            border-radius: 3px;
+            color: crimson;
+        
+            transition: background .3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            &:hover {
+                box-shadow: 0px 0px 10px 1px crimson;
+            }
+
+            
+        }
+
+        &-btn-edit {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: 1px solid crimson;
+            background: #fff;
+            border-radius: 3px;
+            color: crimson;
+        
+            transition: background .3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            &:hover {
+                box-shadow: 0px 0px 10px 1px crimson;
+            }
+        }
+
+        &-btn-delete {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: 1px solid crimson;
+            background: #fff;
+            border-radius: 3px;
+            color: crimson;
+        
+            transition: background .3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            &:hover {
+                box-shadow: 0px 0px 10px 1px crimson;
+            }
+        }
+
+        &-btn-cancel {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: 1px solid crimson;
+            background: #fff;
+            border-radius: 3px;
+            color: crimson;
+        
+            transition: background .3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            &:hover {
+                box-shadow: 0px 0px 10px 1px crimson;
+            }
+        }
+    }
+
+
 }
+
+/* Modal */
+.ReactModalPortal > div{
+    opacity: 0;
+}
+
+.ReactModalPortal .ReactModal__Overlay {
+    width: 100vw;
+    height: 100vh;
+    transition: opacity .2s ease-in-out;
+    z-index: 999;
+    
+}
+
+
 
 .modal-fondo {
     background-color: rgba(0, 0, 0, 0.3);
@@ -50,146 +182,21 @@
 
 }
 
-.modal__title {
-    text-align: center;
-    grid-column: 1/2;
-    grid-row: 1/2;
-}
-
-.modal__body {
-    padding: 25px;
-    // outline: 3px solid crimson;
-    grid-column: 1/2;
-    grid-row: 2/3;
-}
-
-.modal__body-group {
-    display: flex;
-    justify-content: space-between;
-    // outline: 3px solid crimson;
-    
-}
-
-.modal__body-text {
-    // outline: 3px solid crimson;
-    padding: 5px;
-}
-
-.modal__body-text-area {
-    width: 200px;
-    height: 30px;
-    padding: 5px;
-    overflow: auto;
-    text-align: right;
-}
-
-.modal__footer {
-    // outline: 3px solid crimson;
-    // width: 100%;
-    // height: 100%;
-    grid-column: 1/2;
-    grid-row: 3/4;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 1fr;
-    // justify-content: center;
-    padding: 10px;
-    gap: 5px;
-    // flex-wrap: wrap-reverse;
-}
-
-.modal__footer-btn-download {
-    width: 100%;
-    height: 100%;
-    outline: none;
-    border: none;
-    background: #449255;
-    border-radius: 3px;
-    color: #fff;
-
-    transition: background .3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.modal__footer-btn-download:hover {
-    background: #4492558a;
-    outline: 1.5px solid #449255;
-    // transition: all .5s ease;
-    color: #449255;
-}
-
-.modal__footer-btn-edit {
-    width: 100%;
-    height: 100%;
-    outline: none;
-    border: none;
-    background: #6b4492;
-    border-radius: 3px;
-    color: #fff;
-
-    transition: background .3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.modal__footer-btn-icon {
+.btn-icon {
+    font-size: 25px;
     display: block;
 }
 
-.modal__footer-btn-text {
+
+.btn-text {
     display: block;
 }
 
-.modal__footer-btn-edit:hover {
-    background: #7c56a077;
-    outline: 1.5px solid #6b4492;
-    // transition: all .5s ease;
-    color: #6b4492;
-}
 
-.modal__footer-btn-delete {
-    width: 100%;
-    height: 100%;
-    outline: none;
-    border: none;
-    background: #ee4869;
-    border-radius: 3px;
-    color: #fff;
 
-    transition: background .3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
 
-.modal__footer-btn-delete:hover {
-    background: #ee486963;
-    outline: 1.5px solid #ee4869;
-    // transition: all .5s ease;
-    color: #ee4869;
-}
 
-.modal__footer-btn-cancel {
-    width: 100%;
-    height: 100%;
-    outline: none;
-    border: none;
-    background: #d4c25a;
-    border-radius: 3px;
-    color: #fff;
 
-    transition: background .3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
 
-.modal__footer-btn-cancel:hover {
-    background: #d4c25a69;
-    outline: 1.5px solid #d4c25a;
-    // transition: all .5s ease;
-    color: #d4c25a;
-}
+
+

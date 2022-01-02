@@ -1,41 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Ephesis&display=swap');
-@import '../../styles/style.scss';
+@import url("https://fonts.googleapis.com/css2?family=Ephesis&display=swap");
+@import "../../styles/style.scss";
 
-.container {
-    max-width: 1200px;
-    width: 90%;
-    margin: auto;
-    padding: 0.1px;
-    height: 100vh;
-    overflow: hidden;
-    color: #660909d8;
-}
-
-.bg__kurenai {
+.auth {
     // background: linear-gradient(to bottom, #870000, #190a05);
-    background-image: linear-gradient( #020000d8, #660909d8), url('../../assets/bg-image-04.jpg');
+    background-image: linear-gradient(#020000d8, #660909d8), url("../../assets/bg-image-04.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 100vw;
     height: 100vh;
-}
 
-.auth__card {
-    width: 600px;
-    height: 500px;
-    background: #fff;
-    padding: 12px;
-    margin: 50px auto;
-    border-radius: 5px;
-    box-shadow: 3px 3px 10px 3px rgba(3, 3, 3, 0.5);
+    &__container {
+        max-width: 1200px;
+        width: 90%;
+        margin: auto;
+        padding: 0.1px;
+        height: 100vh;
+        overflow: hidden;
+        color: #660909d8;
 
-    .auth__card-title {
-        font-family: 'Ephesis', cursive;
-        text-align: center;
-        font-size: 50px;
-        color: crimson;
+        &-card {
+            width: 600px;
+            height: 500px;
+            background: #fff;
+            padding: 12px;
+            margin: 50px auto;
+            border-radius: 5px;
+            box-shadow: 3px 3px 10px 3px rgba(3, 3, 3, 0.5);
+
+            h1 {
+                font-family: "Ephesis", cursive;
+                text-align: center;
+                font-size: 50px;
+                color: crimson;
+            }
+        }
     }
-
 }
-
-

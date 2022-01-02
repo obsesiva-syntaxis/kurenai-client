@@ -15,14 +15,11 @@ import moment from 'moment';
 
 //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { useQuery } from '@apollo/client';
-import { GET_EVENTS } from '../../graphql/GET_EVENTS';
-
-//Own Functions Syntaxis
-import { parseDateEvents } from '../../functions/parseDateEvents';
+import { GET_EVENTS } from '../../graphql/event';
 
 import ModalEvent from '../../components/admin/Modal/ModalEvent';
-import NewEventForm from '../../components/admin/NewEventForm';
-import EditEventForm from '../../components/admin/EditEventForm'
+import NewEventForm from '../../components/admin/Event/NewEventForm';
+import EditEventForm from '../../components/admin/Event/EditEventForm';
 
 
 import './Calendar.scss';
@@ -30,7 +27,7 @@ import './Calendar.scss';
 // import Swal from 'sweetalert2';
 
 //translate to spanish
-import 'moment/locale/es-mx'
+import 'moment/locale/es-mx';
 moment.locale('Es-mx');
 
 const localizer = momentLocalizer(moment);
@@ -63,10 +60,10 @@ export default function AdmCalendar() {
     const { data, loading, refetch } = useQuery(GET_EVENTS);
 
     if (loading) return null;
-    const eventParsed = parseDateEvents(data.getEvents);
+    const { getEvents } = data;
+
 
     const eventStyleGetter = (event) => {
-
         const style = {
             backgroundColor: event.bgColor,
             opacity: 0.8,
@@ -84,7 +81,6 @@ export default function AdmCalendar() {
     }
 
     const onSelectEvent = (event) => {
-        
     }
 
     const onSelectSlot = (event) => {
@@ -106,14 +102,14 @@ export default function AdmCalendar() {
                 break;
         }
     }
-    
+
     return (
         <div className="calendar">
             { handleEvent === '' ?  <Calendar 
                     className="calendar__main"
                         selectable={ true }
                         localizer={ localizer }
-                        events={ eventParsed }
+                        events={ getEvents }
                         startAccessor="start"
                         endAccessor="end"
                         messages={ messages }

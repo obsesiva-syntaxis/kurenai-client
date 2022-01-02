@@ -1,0 +1,71 @@
+@import "../../../../styles/style.scss";
+
+
+.post-list {
+
+    height: 100%;
+    width: 100%;
+
+    &__box {
+        position: relative;
+        width: 100%;
+        height: 70px;
+        border-bottom: 1px solid crimson;
+        border-right: 1px solid crimson;;
+        // outline: 1px solid black;
+        margin-bottom: 10px;
+        // background: rgb(199, 199, 199);
+        border-radius: 0 5px 5px 0;
+        overflow: hidden;
+        
+        img {
+            position: absolute;
+            clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+            width: 100px;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &-username {
+            font-family: $font-title;
+            display: block;
+            margin-left: 100px;
+            align-content: center;
+
+            &:first-of-type {
+                color: green;
+            }
+
+            label {
+                color: #000;
+                margin-left: 3px;
+            }
+        }
+
+        &-msg {
+            font-family: $font-info;
+            margin-left: 100px;
+            padding: 3px;
+            width: 75%;
+            height: 100%;
+            // background: red;
+            overflow: auto;
+    
+            label {
+                align-content: justify;
+                font-size: 20px;
+            }
+        }
+
+        &-time {
+            font-size: 25px;
+            
+            font-family: $font-info-time;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            margin-right: 5px;
+        }
+    }
+}
+

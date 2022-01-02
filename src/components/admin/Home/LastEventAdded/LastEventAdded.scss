@@ -1,0 +1,58 @@
+@import '../../../../styles/style.scss';
+
+.last-event-added {
+    width: 100%;
+    color: #fff;
+    padding: 10px;
+    font-family: $font-title;
+    
+
+    &__title {
+        font-family: $font-title;
+        display: flex;
+        justify-content: center;
+        color: #000;
+    }
+
+    &__box {
+        
+        margin-top: 10px;
+        overflow-y: auto;
+        height: 200px;
+        
+        
+        &-index {
+            position: relative;
+            line-height: 1px;
+            font-size: 13px;
+            padding: 5px 10px;
+            width: 95%;
+            height: 70px;
+            background-color: crimson;
+            border-radius: 5px;
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            margin-bottom: 10px;
+
+            &-avatar {
+                position: absolute;
+                right: 0;
+                top: 0;
+                border-bottom-right-radius: 5px;
+                border-top-right-radius: 5px;
+                width: 100px;
+                height: 100%;
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                opacity: 0.3;
+                clip-path: polygon(100% 0%, 100% 41%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);
+            }
+
+            &-title {
+                color: #ecf800;
+                font-family: $font-title;
+            }
+        }
+    }
+}

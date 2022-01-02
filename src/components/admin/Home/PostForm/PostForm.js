@@ -1,0 +1,55 @@
+import React from 'react';
+import { useFormik } from 'formik'; //Formik Library | Doc: https://formik.org/docs/overview
+import * as Yup from 'yup'; //Yup Library | Doc: https://www.npmjs.com/package/yup
+import { useMutation } from '@apollo/client'; 
+import { CREATE_POST } from '../../../../graphql/post';
+import moment from 'moment';
+
+import 'moment/locale/es-mx';
+import './PostForm.scss';
+moment.locale('Es-mx');
+
+
+export default function PostForm( props ) {
+    const { auth } = props;
+    const [createPost] = useMutation(CREATE_POST);
+
+    const formik = useFormik({
+        initialValues: initialValues(),
+        validationSchema: Yup.object({
+            message: Yup.string().required('este campo es obligatorio'),
+        }),
+        onSubmit: async values => {
+            await createPost({
+                variables: {
+                    input: {
+                        name: auth.name,
+                        userId: auth.id,
+                        avatarUrl: auth.avatarUrl,
+                        message: values.message,
+                        postDate: values.postDate,
+                    }
+                }
+            });
+            // window.location.reload();
+            // console.log(result);
+        }
+    });
+
+    return (
+        <form onSubmit={formik.handleSubmit}>
+            <textarea type="text" name="message" value={formik.values.message} onChange={formik.handleChange} className="post-form__textbox" cols="30" rows="2"></textarea>
+            <button type="submit" className="post-form__btn">Enviar</button>
+        </form>
+    )
+}
+
+function initialValues(){
+    return {
+        name: '',
+        message: '',
+        postDate: moment().format(),
+        userId: '',
+        avatarUrl: '',
+    }
+}

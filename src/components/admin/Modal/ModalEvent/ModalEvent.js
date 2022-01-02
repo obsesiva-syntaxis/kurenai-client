@@ -6,8 +6,7 @@ import Modal from 'react-modal';
 
 //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_EVENT } from '../../../../graphql/GET_EVENT';
-import { DELETE_EVENT } from '../../../../graphql/DELETE_EVENT';
+import { GET_EVENT, DELETE_EVENT } from '../../../../graphql/event';
 
 //Redux Syntax | Doc: https://es.redux.js.org/docs/
 // import { useDispatch, useSelector } from 'react-redux';
@@ -30,7 +29,7 @@ Modal.setAppElement('#root');
 
 export default function ModalEvent(props) {
 
-    const { showModal, setShowModal, eventSelected, refetch, setType, handleSetupEvent } = props;
+    const { showModal, setShowModal, eventSelected, refetch, handleSetupEvent } = props;
 
     const [ deleteEvent ] = useMutation(DELETE_EVENT);
 
@@ -64,7 +63,7 @@ export default function ModalEvent(props) {
                         variables: {
                             id: getEventById.id
                         }
-                    })
+                    });
                     Swal.fire(
                         'Eliminado!',
                         'El evento ha sido eliminado exitosamente!',
@@ -84,12 +83,10 @@ export default function ModalEvent(props) {
     }
 
     if (loading) return null;
-    if (!data) return null;
 
     const { getEventById } = data;
     if(!getEventById) return null;
-    // const edad = !formatDate ? moment().diff(formatDate, 'years') : 'No ingresado';
-    // PDF VIEWER
+    
     const MyDoc = () => (
         <Document>
             <Page style={styles.body}>
@@ -302,107 +299,105 @@ export default function ModalEvent(props) {
         </Document>
     );
 
-
-
     return (
-        <Modal className="modal" overlayClassName="modal-fondo" isOpen={showModal} closeTimeoutMS={200} onRequestClose={closeModal} >
+        <Modal className="modal-event" overlayClassName="modal-fondo" isOpen={showModal} closeTimeoutMS={200} onRequestClose={closeModal} >
 
-            <h1 className="modal__title">Información Evento</h1>
-            <div className="modal__body">
+            <h1 className="modal-event__title">Información Evento</h1>
+            <div className="modal-event__body">
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Nombre del evento: </label>
-                    <label className="modal__body-text">{getEventById.title}</label>
+                <div>
+                    <label>Nombre del evento: </label>
+                    <label>{getEventById.title}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Instagram: </label>
-                    <label className="modal__body-text">{getEventById.insta}</label>
+                <div>
+                    <label>Instagram: </label>
+                    <label>{getEventById.insta}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Día de la sesión: </label>
-                    <label className="modal__body-text">{moment(getEventById.start).format('DD/MM/YYYY')}</label>
+                <div>
+                    <label>Día de la sesión: </label>
+                    <label>{moment(getEventById.start).format('DD/MM/YYYY')}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Abono: </label>
-                    <label className="modal__body-text">${getEventById.initPayment}</label>
+                <div>
+                    <label>Abono: </label>
+                    <label>${getEventById.initPayment}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Total a pagar: </label>
-                    <label className="modal__body-text">${getEventById.totalPayment}</label>
+                <div>
+                    <label>Total a pagar: </label>
+                    <label>${getEventById.totalPayment}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Descripción:</label>
-                    <label className="modal__body-text-area">{getEventById.desc}</label>
+                <div>
+                    <label>Descripción:</label>
+                    <p>{getEventById.desc}</p>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Rut: </label>
-                    <label className="modal__body-text">{getEventById.rut}</label>
+                <div>
+                    <label>Rut: </label>
+                    <label>{getEventById.rut}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Nombre: </label>
-                    <label className="modal__body-text">{getEventById.name}</label>
+                <div>
+                    <label>Nombre: </label>
+                    <label>{getEventById.name}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Email: </label>
-                    <label className="modal__body-text">{getEventById.email}</label>
+                <div>
+                    <label>Email: </label>
+                    <label>{getEventById.email}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Dirección: </label>
-                    <label className="modal__body-text">{getEventById.address}</label>
+                <div>
+                    <label>Dirección: </label>
+                    <label>{getEventById.address}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Edad del Cliente: </label>
-                    <label className="modal__body-text">{getEventById.birdDate === null ? 'No asignado' : moment().diff(getEventById.birdDate, 'years')}</label>
+                <div>
+                    <label>Edad del Cliente: </label>
+                    <label>{getEventById.birdDate === null ? 'No asignado' : moment().diff(getEventById.birdDate, 'years')}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Teléfono: </label>
-                    <label className="modal__body-text">{getEventById.phoneNumber}</label>
+                <div>
+                    <label>Teléfono: </label>
+                    <label>{getEventById.phoneNumber}</label>
                 </div>
 
-                <div className="modal__body-group">
-                    <label className="modal__body-text">Creado por: </label>
-                    <label className="modal__body-text">{getEventById.userName}</label>
+                <div>
+                    <label>Creado por: </label>
+                    <label>{getEventById.user.name}</label>
                 </div>
 
 
             </div>
 
-            <div className="modal__footer">
+            <div className="modal-event__footer">
 
                 <PDFDownloadLink document={<MyDoc />} fileName="somename.pdf">
                     {({ blob, url, loading, error }) =>
                         loading ?
-                            (<button className="modal__footer-btn-download">
-                                <i className="fas fa-spinner modal__footer-btn-icon"></i>
+                            (<button className="modal-event__footer-btn-download">
+                                <i className="fas fa-spinner btn-icon"></i>
                             </button>)
                             :
-                            (<button className="modal__footer-btn-download">
-                                <i className="fas fa-file-download modal__footer-btn-icon"></i>
+                            (<button className="modal-event__footer-btn-download">
+                                <i className="fas fa-file-download btn-icon"></i>
                             </button>)
                     }
                 </PDFDownloadLink>
 
-                <button className="modal__footer-btn-edit" onClick={handleEditEvent}>
-                    <i className="fas fa-pen modal__footer-btn-icon "></i>
+                <button className="modal-event__footer-btn-edit" onClick={handleEditEvent}>
+                    <i className="fas fa-pen btn-icon "></i>
                     {/* <label className="modal__footer-btn-text">Editar</label> */}
                 </button>
-                <button className="modal__footer-btn-delete" onClick={handleDeleteEvent}>
-                    <i className="fas fa-trash-alt modal__footer-btn-icon"></i>
+                <button className="modal-event__footer-btn-delete" onClick={handleDeleteEvent}>
+                    <i className="fas fa-trash-alt btn-icon"></i>
                     {/* <label className="modal__footer-btn-text">Delete</label> */}
                 </button>
-                <button className="modal__footer-btn-cancel" onClick={closeModal}>
-                    <i className="fas fa-sign-out-alt modal__footer-btn-icon "></i>
+                <button className="modal-event__footer-btn-cancel" onClick={closeModal}>
+                    <i className="fas fa-sign-out-alt btn-icon "></i>
                     {/* <label className="modal__footer-btn-text">Cancel</label> */}
                 </button>
             </div>

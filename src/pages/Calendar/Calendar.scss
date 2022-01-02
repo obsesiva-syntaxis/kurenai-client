@@ -3,9 +3,10 @@
 .calendar {
     padding: 10px;
     height: 100%;
+    font-family: $font-title;
     
+    &__main {
+        height: 100%;
+    }
 }
 
-.calendar__main {
-    height: 100%;
-}

@@ -1,5 +1,5 @@
 import LayoutBasic from '../layouts/LayoutBasic';
-import { AdmHome } from '../components/admin/AdmHome';
+import Home from '../pages/Home';
 import Calendar from '../pages/Calendar';
 // import NewEventForm  from '../components/admin/calendar/NewEventFprm';
 // import EditEventForm  from '../components/admin/calendar/EditEventForm';
@@ -8,7 +8,7 @@ const routes = [
     {
         path: '/',
         layout: LayoutBasic,
-        component: AdmHome,
+        component: Home,
         exact: true,
     },
     {
