@@ -17,7 +17,7 @@ import { setToken, decodeToken } from '../../utils/token';
 import './LoginForm.scss';
 
 export default function LoginForm() {
-
+    localStorage.setItem('token','');
     const [error, setError] = useState('');
     const [authUser] = useMutation(AUTH_USER);
     const { setUser } = useAuth();
@@ -26,7 +26,7 @@ export default function LoginForm() {
         initialValues: initialValues(),
         validationSchema: Yup.object({
             email: Yup.string().required('El email es obligatorio').email('El email no es válido'),
-            password: Yup.string().required('El password es obligatorio').min(6, 'El password debe contener mínimo 6 carácteres')
+            password: Yup.string().required('El password es obligatorio').min(6, 'Mínimo 6 carácteres')
         }),
         onSubmit: async values => {
             setError('');
@@ -37,7 +37,6 @@ export default function LoginForm() {
                 const { token } = data.authUser;
                 setToken(token);
                 setUser(decodeToken(token));
-                console.log(token);
             } catch (err) {
                 setError(err.message);
             }
@@ -49,13 +48,13 @@ export default function LoginForm() {
             <div className="login-form__input-group">
                 {
                     formik.touched.email && formik.errors.email ? (
-                        <label className="login__alert">{formik.errors.email}</label>
+                        <label className="login-form__input-group-alert">{formik.errors.email}</label>
                     ) : (
                         <label className="login__form-text">Email</label>
 
                     )
                 }
-                <input type="text" id="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                <input className="login-form__input-group-input" type="text" id="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
             </div>
 
             <div className="login-form__input-group">
@@ -67,7 +66,7 @@ export default function LoginForm() {
 
                     )
                 }
-                <input  type="password" id="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                <input className="login-form__input-group-input" type="password" id="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
             </div>
 
             <button className="login-form__btn" type="submit">

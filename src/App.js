@@ -12,7 +12,6 @@ import { client } from './apollo/config';
 import { getToken, decodeToken, removeToken } from './utils/token';
 import AuthContext from './context/AuthContext';
 import Navigation from './routers/Navigation';
-import { ToastContainer } from 'react-toastify';
 
 //Pages
 import Auth from './pages/Auth';
@@ -23,6 +22,7 @@ import 'animate.css';
 
 export const App = () => {
     const [auth, setAuth] = useState(undefined);
+    // const [selectedEvent, setSelectedEvent] = useState(undefined);
 
     useEffect(() => {
         const token = getToken();
@@ -42,6 +42,10 @@ export const App = () => {
         setAuth(user);
     }
 
+    // const setEvent = (event) => {
+    //     setSelectedEvent(event);
+    // }
+
     const authData = useMemo(
         () => ({
             auth,
@@ -60,19 +64,6 @@ export const App = () => {
                     !auth ? <Auth /> : <Navigation />
                 }
             </AuthContext.Provider>
-
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar
-                newestOntop
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                Draggable
-                pauseOnHover
-            />
-
             {/* <Provider store={ store }> */}
             {/* <AppRouter /> */}
             {/* </Provider> */}

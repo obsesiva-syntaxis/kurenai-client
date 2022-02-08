@@ -95,7 +95,6 @@ export default function AdmCalendar() {
                 setHandleEvent(<EditEventForm eventSelected={ eventSelected } setShowModal={ setShowModal } setHandleEvent={ setHandleEvent } />);
                 break;
             case 'new':
-                console.log(dateSelected);
                 setHandleEvent(<NewEventForm dateSelected={ date } setHandleEvent={ setHandleEvent } setDateSelected={ setDateSelected }  />);
                 break;
             default:
@@ -117,7 +116,7 @@ export default function AdmCalendar() {
                         onDoubleClickEvent={ onDoubleclick }
                         onSelectEvent={ onSelectEvent }
                         onSelectSlot={ onSelectSlot }
-                        views={['month', 'week', 'day']}
+                        views={['month','day']}
                     /> : handleEvent
             }
 

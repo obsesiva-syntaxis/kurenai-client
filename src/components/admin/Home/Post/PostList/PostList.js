@@ -1,34 +1,22 @@
-import React, { useEffect } from 'react';
-import { useQuery } from '@apollo/client'; //Apollo Syntax | Doc: https://www.apollographql.com/docs/
-import { GET_POSTS } from '../../../../graphql/post';
+import React from 'react';
 import { map } from 'lodash';
 import moment from 'moment';
 
 import './PostList.scss';
 moment.locale('Es-mx');
 
-export default function PostList() {
-    const { data, loading, startPolling, stopPolling } = useQuery(GET_POSTS);
-
-    useEffect(() => {
-        startPolling(1000);
-        return () => {
-            stopPolling();
-        }
-    }, [startPolling, stopPolling])
-
-    if (loading) return null;
-    if(!data) return null;
-    const { getPosts } = data;
+export default function PostList( props ) {
+    const { getPosts } = props;
+    
+    
     return (
         <div className="post-list">
-            
             {
                 map(getPosts, (post, index) => (
                     <div key={index} className="post-list__box animate__animated animate__fadeIn">
-                        <img src={post.avatarUrl} alt="el koku" />
+                        <img src={post.user.avatarUrl} alt="message avatar" />
                         <label className="post-list__box-username">
-                            {post.name}
+                            {post.user.name}
                             <label>
                                 :
                             </label>

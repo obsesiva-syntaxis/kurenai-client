@@ -8,17 +8,6 @@ export const AUTH_USER = gql`
     }
 `;
 
-export const GET_USER_AUTH = gql`
-    query getUserAuth{
-        getUserAuth{
-            id
-            name
-            email
-            avatarUrl
-        }
-    }
-`;
-
 export const GET_USER = gql`
     query getUser( $id: ID! ){
         getUser(id: $id){
@@ -32,8 +21,26 @@ export const GET_USER = gql`
 export const GET_USERS = gql`
     query getUsers {
         getUsers {
-            email
             id
+            email
+            name
+            type
+            avatarUrl
         }
+    }
+`;
+
+export const UPDATE_AVATAR = gql`
+    mutation updateAvatar( $file: Upload ){
+        updateAvatar( file: $file ){
+            status
+            urlAvatar
+        }
+    }
+`;
+
+export const MODIFY_USER = gql`
+    mutation modifyUser( $input: UserModifyInput ){
+        modifyUser( input: $input )
     }
 `;

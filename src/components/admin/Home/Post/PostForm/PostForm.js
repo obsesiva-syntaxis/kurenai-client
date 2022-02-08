@@ -2,16 +2,17 @@ import React from 'react';
 import { useFormik } from 'formik'; //Formik Library | Doc: https://formik.org/docs/overview
 import * as Yup from 'yup'; //Yup Library | Doc: https://www.npmjs.com/package/yup
 import { useMutation } from '@apollo/client'; 
-import { CREATE_POST } from '../../../../graphql/post';
+import { CREATE_POST } from '../../../../../graphql/post';
 import moment from 'moment';
 
 import 'moment/locale/es-mx';
 import './PostForm.scss';
+import { removeClientSetsFromDocument } from '@apollo/client/utilities';
 moment.locale('Es-mx');
 
 
 export default function PostForm( props ) {
-    const { auth } = props;
+    const { auth, refetch } = props;
     const [createPost] = useMutation(CREATE_POST);
 
     const formik = useFormik({
@@ -19,26 +20,25 @@ export default function PostForm( props ) {
         validationSchema: Yup.object({
             message: Yup.string().required('este campo es obligatorio'),
         }),
-        onSubmit: async values => {
-            await createPost({
+        onSubmit: async (values, { resetForm }) => {
+            const result = await createPost({
                 variables: {
                     input: {
-                        name: auth.name,
-                        userId: auth.id,
-                        avatarUrl: auth.avatarUrl,
                         message: values.message,
                         postDate: values.postDate,
+                        user: auth.id,
                     }
                 }
             });
-            // window.location.reload();
-            // console.log(result);
+            console.log(result);
+            refetch();
+            resetForm();
         }
     });
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <textarea type="text" name="message" value={formik.values.message} onChange={formik.handleChange} className="post-form__textbox" cols="30" rows="2"></textarea>
+        <form className="post-form" onSubmit={formik.handleSubmit}>
+            <textarea type="text" name="message" value={formik.values.message} onChange={formik.handleChange} className="post-form__textbox" cols="30" rows="2" placeholder="Escriba una nota..."></textarea>
             <button type="submit" className="post-form__btn">Enviar</button>
         </form>
     )

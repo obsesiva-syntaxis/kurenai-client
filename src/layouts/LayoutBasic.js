@@ -18,13 +18,7 @@ export default function LayoutBasic(props) {
                 <div className="admin__header">
                     <Header />
                 </div>
-                <div className="admin__body animate__animated animate__fadeIn">
-                    {/* <Switch>
-                        <Route path="/adm/home" component={AdmHome} />
-                        <Route path="/adm/calendar" component={AdmCalendar} />
-                        <Route path="/adm/newevent" component={NewEvent} />
-                        <Route path="/adm/editevent" component={EditEvent} />
-                    </Switch> */}
+                <div className="admin__body">
                     {children}
                 </div>
 

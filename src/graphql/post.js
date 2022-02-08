@@ -5,7 +5,6 @@ export const CREATE_POST = gql`
     mutation createPost( $input: PostInput ){
         createPost( input: $input ){
             id
-            name
             message
             postDate
         }
@@ -16,11 +15,12 @@ export const GET_POSTS = gql`
     query getPosts{
         getPosts{
             id
-            name
-            postDate
-            userId
             message
-            avatarUrl
+            postDate
+            user {
+                name
+                avatarUrl
+            }
         }
     }
 `;

@@ -1,38 +1,21 @@
-//React Library | Doc: https://es.reactjs.org/docs/getting-started.html
-import React from 'react';
-
-//React Modal Library | Doc: https://www.npmjs.com/package/react-modal
-import Modal from 'react-modal';
-
-//Apollo Syntax | Doc: https://www.apollographql.com/docs/
-import { useMutation, useQuery } from '@apollo/client';
+import React from 'react'; //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
+import Modal from 'react-modal'; //React Modal Library | Doc: https://www.npmjs.com/package/react-modal
+import { useMutation, useQuery } from '@apollo/client'; //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { GET_EVENT, DELETE_EVENT } from '../../../../graphql/event';
-
-//Redux Syntax | Doc: https://es.redux.js.org/docs/
-// import { useDispatch, useSelector } from 'react-redux';
-// import { modalState } from '../../../../redux/actions/modal';
-
-//Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
-import Swal from 'sweetalert2';
-
-//Moment Library | Doc: https://momentjs.com/docs/
-import moment from 'moment';
-
-//React-PDF Library | Doc: https://react-pdf.org/advanced#on-the-fly-rendering
-import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer';
+import Swal from 'sweetalert2'; //Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
+import moment from 'moment'; //Moment Library | Doc: https://momentjs.com/docs/
+import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer'; //React-PDF Library | Doc: https://react-pdf.org/advanced#on-the-fly-rendering
 import { styles } from '../../../../functions/pdfStyles';
-// import { MyDoc } from '../../../../utils/PDFgenerator';
+import Info from './Info';
+import ConfirmDate from './ConfirmDate';
 
 import './ModalEvent.scss';
 
 Modal.setAppElement('#root');
 
 export default function ModalEvent(props) {
-
     const { showModal, setShowModal, eventSelected, refetch, handleSetupEvent } = props;
-
     const [ deleteEvent ] = useMutation(DELETE_EVENT);
-
     const { data, loading } = useQuery(GET_EVENT, {
         variables: {
             id: eventSelected
@@ -86,6 +69,7 @@ export default function ModalEvent(props) {
 
     const { getEventById } = data;
     if(!getEventById) return null;
+    console.log(getEventById);
     
     const MyDoc = () => (
         <Document>
@@ -305,77 +289,14 @@ export default function ModalEvent(props) {
             <h1 className="modal-event__title">Información Evento</h1>
             <div className="modal-event__body">
 
-                <div>
-                    <label>Nombre del evento: </label>
-                    <label>{getEventById.title}</label>
-                </div>
-
-                <div>
-                    <label>Instagram: </label>
-                    <label>{getEventById.insta}</label>
-                </div>
-
-                <div>
-                    <label>Día de la sesión: </label>
-                    <label>{moment(getEventById.start).format('DD/MM/YYYY')}</label>
-                </div>
-
-                <div>
-                    <label>Abono: </label>
-                    <label>${getEventById.initPayment}</label>
-                </div>
-
-                <div>
-                    <label>Total a pagar: </label>
-                    <label>${getEventById.totalPayment}</label>
-                </div>
-
-                <div>
-                    <label>Descripción:</label>
-                    <p>{getEventById.desc}</p>
-                </div>
-
-                <div>
-                    <label>Rut: </label>
-                    <label>{getEventById.rut}</label>
-                </div>
-
-                <div>
-                    <label>Nombre: </label>
-                    <label>{getEventById.name}</label>
-                </div>
-
-                <div>
-                    <label>Email: </label>
-                    <label>{getEventById.email}</label>
-                </div>
-
-                <div>
-                    <label>Dirección: </label>
-                    <label>{getEventById.address}</label>
-                </div>
-
-                <div>
-                    <label>Edad del Cliente: </label>
-                    <label>{getEventById.birdDate === null ? 'No asignado' : moment().diff(getEventById.birdDate, 'years')}</label>
-                </div>
-
-                <div>
-                    <label>Teléfono: </label>
-                    <label>{getEventById.phoneNumber}</label>
-                </div>
-
-                <div>
-                    <label>Creado por: </label>
-                    <label>{getEventById.user.name}</label>
-                </div>
-
+                {/* <Info getEventById={ getEventById } /> */}
+                <ConfirmDate getEventById={ getEventById } />
 
             </div>
 
             <div className="modal-event__footer">
 
-                <PDFDownloadLink document={<MyDoc />} fileName="somename.pdf">
+                <PDFDownloadLink document={<MyDoc />} fileName={`Evento ${getEventById.title} con fecha ${moment(getEventById.start).format('DD/MM/YYYY')}.pdf`}>
                     {({ blob, url, loading, error }) =>
                         loading ?
                             (<button className="modal-event__footer-btn-download">

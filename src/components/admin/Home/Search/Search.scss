@@ -1,0 +1,44 @@
+@import "../../../../styles/style.scss";
+
+.search {
+    width: 100%;
+    
+    text-align: center;
+    
+    
+    &__title {
+        font-family: $font-title;
+        color: $color-first;
+    }
+    
+    &__events {
+        // margin-top: 5px;
+        all: none !important;
+        border-radius: 0rem !important;
+        border: none !important;
+        background-color: #fff;
+    }
+}
+
+.ui.search.search__events > .results {
+    height: 20rem;
+    max-height: 50rem !important;
+    overflow: auto !important;
+}
+
+.ui.search.search__events > .results .result {
+    font-family: $font-title;
+    color: crimson;
+    overflow: auto !important;
+}
+
+.ui.search.search__events > .results .result:hover {
+    font-family: $font-title;
+    color: #fff;
+    background: crimson;
+    overflow: auto !important;
+}
+
+.ui.search.search__events > .results .result img{
+    object-fit: cover;
+}

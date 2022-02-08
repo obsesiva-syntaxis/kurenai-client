@@ -8,7 +8,7 @@
     position: block;
     background: white;
     border: crimson;
-    box-shadow: 0px 0px 10px 5px crimson;
+    box-shadow: $border-kurenai;
     margin: 20px auto;
     display: grid;
     grid-template-columns: 1fr;
@@ -17,6 +17,7 @@
     z-index: 10;
 
     &__title {
+        color: crimson;
         font-family: $font-title;
         text-align: center;
         grid-column: 1/2;
@@ -36,8 +37,13 @@
                 padding: 5px;
                 font-family: $font-info;
             }
-
+            
+            label:first-child {
+                font-weight: bold;
+            }
+            
             p {
+                font-family: $font-info;
                 margin-top: 0;
                 margin-bottom: 0;
                 width: 200px;
@@ -143,43 +149,6 @@
             }
         }
     }
-
-
-}
-
-/* Modal */
-.ReactModalPortal > div{
-    opacity: 0;
-}
-
-.ReactModalPortal .ReactModal__Overlay {
-    width: 100vw;
-    height: 100vh;
-    transition: opacity .2s ease-in-out;
-    z-index: 999;
-    
-}
-
-
-
-.modal-fondo {
-    background-color: rgba(0, 0, 0, 0.3);
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    position: fixed;
-    
-}
-
-.ReactModalPortal .ReactModal__Overlay--after-open {
-    opacity: 1;
-    
-}
-
-.ReactModalPortal .ReactModal__Overlay--before-close {
-    opacity: 0;
-
 }
 
 .btn-icon {

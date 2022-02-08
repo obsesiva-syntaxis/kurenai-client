@@ -1,0 +1,64 @@
+@import '../../../../../styles/style.scss';
+
+.avatar-update {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    
+    &__box {
+        position: relative;
+        grid-column: 1/2;
+        height: 130px;
+        width: 130px;
+        outline: 2px solid $color-first;
+        cursor: pointer;
+
+        &-avatar {
+            // background-color: #000;
+            height: 100%;
+            width: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        i {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            margin: 5px;
+            color: #fff;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0 10px;
+        
+        button {
+            cursor: pointer;
+            font-family: $font-info;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding-bottom: 10px;
+            border: none;
+            border-bottom: 1px solid #bfbfbf;
+            background-color: #fff;
+            
+            &:hover {
+                color: #24c01f;
+                border-bottom: 1px solid #24c01f;
+            }
+
+            &:last-child {
+                color: #d87812;
+    
+                &:hover {
+                    border-bottom: 1px solid #d87812;
+                }
+            }
+        }
+    }
+}

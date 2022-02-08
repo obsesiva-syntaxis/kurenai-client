@@ -1,0 +1,61 @@
+@import "../../../../../styles/style.scss";
+
+.post-form {
+    display: grid;
+    grid-template-columns: 1fr 15rem;
+    grid-template-rows: 1fr;
+    width: 100%;
+    gap: .5rem;
+    padding: 5px;
+
+    &__textbox {
+        grid-column: 1/2;
+        grid-row: 1/2;
+        height: 100%;
+        width: 100%;
+
+        outline: none;
+        border: none;
+        border-radius: 3px;
+        padding: 2rem;
+        resize: none;
+
+        // &:hover {
+        //     outline: 1.5px solid #dc143c;
+        //     box-shadow: 0px 0px 5px 0px crimson;
+        // }
+
+        &:focus {
+            outline: 1.5px solid #dc143c;
+            // box-shadow: 0px 0px 5px 2px crimson;
+            transition: box-shadow 0.5s ease-out;
+        }
+        &::placeholder {
+            font-family: $font-title;
+            font-size: 2rem;
+            color: #dc143c;
+            padding: 5px;
+            margin: 5rem auto;
+        }
+    }
+
+    &__btn {
+        height: 100%;
+        width: 100%;
+        color: #dc143c;
+        background: #fff;
+        border: 1px solid #dc143c;
+        // border: none;
+        border-radius: 3px;
+        // border-left: 1px solid #000;
+        // opacity: 0.3;
+        transition: background 0.5s ease-out;
+
+        &:hover {
+            // outline: 1.5px solid #dc143c;
+            background: #dc143c;
+            color: #fff;
+            // box-shadow: 0px 0px -5px -2px crimson;
+        }
+    }
+}

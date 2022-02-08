@@ -79,8 +79,57 @@ export const UPDATE_EVENT = gql`
 export const LAST_EVENTS_ADDED = gql`
     query lastEventsAdded {
         lastEventsAdded {
+            id
             title
             insta
+            user {
+                name
+                avatarUrl
+            }
+        }
+    }
+`;
+
+export const SEARCH = gql`
+    query search( $search: String ){
+        search( search: $search ){
+            id
+            title
+            insta
+            user {
+                name
+                email
+                avatarUrl
+            }
+            start
+        }
+    }
+`;
+
+export const TODAY = gql`
+    query todayEvent {
+        todayEvent{
+            title
+            insta
+            hours
+            desc
+            phoneNumber
+            user {
+                name
+                avatarUrl
+            }
+        }
+    }
+`;
+
+export const TOMORROW = gql`
+    query tomorrowEvent {
+        tomorrowEvent{
+            title
+            insta
+            hours
+            desc
+            phoneNumber
             user {
                 name
                 avatarUrl

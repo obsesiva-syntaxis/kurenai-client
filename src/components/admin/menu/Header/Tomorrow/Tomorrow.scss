@@ -1,0 +1,114 @@
+@import "../../../../../styles/style.scss";
+
+.tomorrow {
+    grid-column: 3/4;
+    grid-row: 1/2;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+
+    &__banner {
+        display: flex;
+        font-family: $font-title;
+        width: 100%;
+        height: 100%;
+        background: #dc143c;
+        background-size: 4px 4px;
+        background-image: repeating-linear-gradient(45deg, #dc143c 0, #dc143c 0.4px, #ac1130da 0, #dc143c 50%);
+        text-align: left;
+        box-shadow: 0 0 10px 1px #dc143c;
+        margin-bottom: 10px;
+        overflow: hidden;
+
+        &-title {
+            border: 0.3rem solid $color-first;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            outline: none;
+            width: 10rem;
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            h1 {
+                font-size: 2.5rem;
+                font-weight: bold;
+                font-family: $font-info;
+                color: #fff;
+                text-align: center;
+            }
+        }
+
+        &-event {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1rem;
+            
+
+            &-title {
+                font-family: $font-title;
+                margin: 0;
+                width: 100%;
+                flex-grow: .5;
+                color: #fff;
+                text-align: center;
+            }
+
+            &-info {
+                width: 100%;
+                flex-grow: 1;
+                display: flex;
+                align-items: stretch;
+                padding-left: .3rem;
+
+                &-first {
+                    width: 50%;               
+                    color: #fff;
+                    
+                    p {
+                        margin: 0;
+                    }
+
+                }
+
+                &-second {
+                    flex-grow: 6;
+                    width: 50%;
+                    padding: 0 .3rem;
+                    color: #fff;
+
+                    &-estimated {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+
+                    &-contact {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+                }
+            }
+
+            &-free {
+                font-family: $font-info;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+            }
+        }
+    }
+}

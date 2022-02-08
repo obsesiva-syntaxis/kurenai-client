@@ -1,28 +1,30 @@
 import LayoutBasic from '../layouts/LayoutBasic';
 import Home from '../pages/Home';
 import Calendar from '../pages/Calendar';
+import User from '../pages/User';
+
 // import NewEventForm  from '../components/admin/calendar/NewEventFprm';
 // import EditEventForm  from '../components/admin/calendar/EditEventForm';
 
 const routes = [
     {
-        path: '/',
+        path: '/admin',
         layout: LayoutBasic,
         component: Home,
         exact: true,
     },
     {
-        path: '/calendar',
+        path: '/admin/calendar',
         layout: LayoutBasic,
         component: Calendar,
         exact: true,
     },
-    // {
-    //     path: '/newevent',
-    //     layout: LayoutBasic,
-    //     component: NewEvent,
-    //     exact: true,
-    // },
+    {
+        path: '/admin/user',
+        layout: LayoutBasic,
+        component: User,
+        exact: true,
+    },
     // {
     //     path: '/editevent',
     //     layout: LayoutBasic,
