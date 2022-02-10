@@ -12,6 +12,8 @@ import { client } from './apollo/config';
 import { getToken, decodeToken, removeToken } from './utils/token';
 import AuthContext from './context/AuthContext';
 import Navigation from './routers/Navigation';
+import Landing from './pages/Landing';
+import ClientNavigation from './routers/ClientNavigation';
 
 //Pages
 import Auth from './pages/Auth';
@@ -22,7 +24,6 @@ import 'animate.css';
 
 export const App = () => {
     const [auth, setAuth] = useState(undefined);
-    // const [selectedEvent, setSelectedEvent] = useState(undefined);
 
     useEffect(() => {
         const token = getToken();
@@ -61,12 +62,9 @@ export const App = () => {
         <ApolloProvider client={client}>
             <AuthContext.Provider value={authData}>
                 {
-                    !auth ? <Auth /> : <Navigation />
+                    !auth ? <ClientNavigation /> : <Navigation />
                 }
             </AuthContext.Provider>
-            {/* <Provider store={ store }> */}
-            {/* <AppRouter /> */}
-            {/* </Provider> */}
         </ApolloProvider>
     );
 }

@@ -4,7 +4,6 @@ import './UserActions.scss';
 
 export default function UserActions( props ) {
     const { onHandleActions } = props;
-    console.log('mostrando user acrtions');
 
     return (
         <div className="user-actions">

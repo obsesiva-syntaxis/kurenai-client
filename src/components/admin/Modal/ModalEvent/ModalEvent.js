@@ -1,4 +1,4 @@
-import React from 'react'; //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
+import React, { useEffect, useState } from 'react'; //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
 import Modal from 'react-modal'; //React Modal Library | Doc: https://www.npmjs.com/package/react-modal
 import { useMutation, useQuery } from '@apollo/client'; //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { GET_EVENT, DELETE_EVENT } from '../../../../graphql/event';
@@ -14,20 +14,35 @@ import './ModalEvent.scss';
 Modal.setAppElement('#root');
 
 export default function ModalEvent(props) {
-    const { showModal, setShowModal, eventSelected, refetch, handleSetupEvent } = props;
-    const [ deleteEvent ] = useMutation(DELETE_EVENT);
-    const { data, loading } = useQuery(GET_EVENT, {
+    const { showModal, setShowModal, eventSelected, handleSetupEvent, from } = props;
+    const [deleteEvent] = useMutation(DELETE_EVENT);
+    const [modalState, setModalState] = useState('info');
+    const { data, loading, refetch } = useQuery(GET_EVENT, {
         variables: {
             id: eventSelected
         }
     });
+
+    
     const closeModal = () => {
+        setModalState('info');
         setShowModal(false);
     }
 
+    const handleCancelEdit = () => {
+        setModalState('info');
+    }
+
     const handleEditEvent = () => {
-        setShowModal(false);
-        handleSetupEvent('edit');
+        switch (from) {
+            case 'home':
+                setModalState('edit');
+                break;
+            case 'calendar':
+                setShowModal(false);
+                handleSetupEvent('edit');
+                break;
+        }
     }
 
     const handleDeleteEvent = () => {
@@ -68,9 +83,8 @@ export default function ModalEvent(props) {
     if (loading) return null;
 
     const { getEventById } = data;
-    if(!getEventById) return null;
-    console.log(getEventById);
-    
+    if (!getEventById) return null;
+
     const MyDoc = () => (
         <Document>
             <Page style={styles.body}>
@@ -288,35 +302,67 @@ export default function ModalEvent(props) {
 
             <h1 className="modal-event__title">Información Evento</h1>
             <div className="modal-event__body">
-
-                {/* <Info getEventById={ getEventById } /> */}
-                <ConfirmDate getEventById={ getEventById } />
-
+                {
+                    modalState === 'info' ? (
+                        <Info getEventById={getEventById} />
+                    ) : (
+                        <ConfirmDate getEventById={getEventById} refetch={refetch} setModalState={setModalState} />
+                    )
+                }
             </div>
 
             <div className="modal-event__footer">
 
-                <PDFDownloadLink document={<MyDoc />} fileName={`Evento ${getEventById.title} con fecha ${moment(getEventById.start).format('DD/MM/YYYY')}.pdf`}>
-                    {({ blob, url, loading, error }) =>
-                        loading ?
-                            (<button className="modal-event__footer-btn-download">
-                                <i className="fas fa-spinner btn-icon"></i>
-                            </button>)
-                            :
-                            (<button className="modal-event__footer-btn-download">
-                                <i className="fas fa-file-download btn-icon"></i>
-                            </button>)
-                    }
-                </PDFDownloadLink>
+                {
+                    modalState === 'info' ? (
+                        <>
+                            <PDFDownloadLink document={<MyDoc />} fileName={`Evento ${getEventById.title} con fecha ${moment(getEventById.start).format('DD/MM/YYYY')}.pdf`}>
+                                {({ blob, url, loading, error }) =>
+                                    loading ?
+                                        (<button className="modal-event__footer-btn-download">
+                                            <i className="fas fa-spinner btn-icon"></i>
+                                        </button>)
+                                        :
+                                        (<button className="modal-event__footer-btn-download">
+                                            <i className="fas fa-file-download btn-icon"></i>
+                                        </button>)
+                                }
+                            </PDFDownloadLink>
+                            <button className="modal-event__footer-btn-edit" onClick={handleEditEvent}>
+                                <i className="fas fa-pen btn-icon "></i>
+                                {/* <label className="modal__footer-btn-text">Editar</label> */}
+                            </button>
+                            <button className="modal-event__footer-btn-delete" onClick={handleDeleteEvent}>
+                                <i className="fas fa-trash-alt btn-icon"></i>
+                                {/* <label className="modal__footer-btn-text">Delete</label> */}
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <PDFDownloadLink document={<MyDoc />} fileName={`Evento ${getEventById.title} con fecha ${moment(getEventById.start).format('DD/MM/YYYY')}.pdf`} >
+                                {({ blob, url, loading, error }) =>
+                                    loading ?
+                                        (<button className="modal-event__footer-btn-download" disabled>
+                                            <i className="fas fa-spinner btn-icon"></i>
+                                        </button>)
+                                        :
+                                        (<button className="modal-event__footer-btn-download" disabled>
+                                            <i className="fas fa-file-download btn-icon"></i>
+                                        </button>)
+                                }
+                            </PDFDownloadLink>
+                            <button className="modal-event__footer-btn-edit" onClick={handleCancelEdit}>
+                            <i className="fas fa-ban btn-icon"></i>
+                                {/* <label className="modal__footer-btn-text">Editar</label> */}
+                            </button>
+                            <button className="modal-event__footer-btn-delete" onClick={handleDeleteEvent} disabled>
+                                <i className="fas fa-trash-alt btn-icon"></i>
+                                {/* <label className="modal__footer-btn-text">Delete</label> */}
+                            </button>
+                        </>
+                    )
+                }
 
-                <button className="modal-event__footer-btn-edit" onClick={handleEditEvent}>
-                    <i className="fas fa-pen btn-icon "></i>
-                    {/* <label className="modal__footer-btn-text">Editar</label> */}
-                </button>
-                <button className="modal-event__footer-btn-delete" onClick={handleDeleteEvent}>
-                    <i className="fas fa-trash-alt btn-icon"></i>
-                    {/* <label className="modal__footer-btn-text">Delete</label> */}
-                </button>
                 <button className="modal-event__footer-btn-cancel" onClick={closeModal}>
                     <i className="fas fa-sign-out-alt btn-icon "></i>
                     {/* <label className="modal__footer-btn-text">Cancel</label> */}

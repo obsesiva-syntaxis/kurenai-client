@@ -35,8 +35,9 @@ export const GET_EVENT = gql`
             totalPayment
             desc
             user {
-              name
-              avatarUrl
+                id
+                name
+                avatarUrl
             }
             hours
         }

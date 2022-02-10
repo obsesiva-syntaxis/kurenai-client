@@ -16,14 +16,47 @@
             
             label {
                 all: unset;
+                font-family: $font-title;
+                text-align: center;
             }
-
+            
             input {
                 all: unset;
+                font-family: $font-info;
+                text-align: center;
                 outline: 1px solid #000;
-                background: rgb(227, 227, 227);
-                border: .1rem solid crimson;
+                border: .05rem solid #b8b7b7;
                 padding: .3rem;
+                border-radius: .3rem;
+                
+                &:hover {
+                    box-shadow: 0 0 .3rem .3rem rgba(220, 20, 60, 0.653);
+                }
+                &:focus {
+                    box-shadow: 0 0 .9rem .1rem rgba(220, 20, 60, 0.653);
+                    border: .05rem solid #bbb740;
+                }
+            }
+            
+            button {
+                all: unset;
+                border-radius: .3rem;
+                margin-top: 1rem;
+                font-family: $font-title;
+                
+                text-align: center;
+                padding: .3rem;
+                color: #fff;
+                background: #598b7c;
+                transition: all .5s ease;
+
+                &:hover {
+                    border: .05rem solid #598b7c;
+                    background: #fff;
+                    color: #598b7c;
+                    transition: all .5s ease;
+                    cursor: pointer;
+                }
             }
         }
     }

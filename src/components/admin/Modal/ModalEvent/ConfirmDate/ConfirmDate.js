@@ -22,44 +22,9 @@ import './ConfirmDate.scss';
 
 
 export default function ConfirmDate(props) {
-    const { getEventById } = props;
+    const { getEventById, refetch, setModalState } = props;
     
-    const [updateEvent] = useMutation(UPDATE_EVENT, {
-        update(cache, { data: { updateEvent } }) {
-            const { getEventById } = cache.readQuery({
-                query: GET_EVENT,
-                variables: {
-                    id: getEventById.id
-                },
-            });
-
-            cache.writeQuery({
-                query: GET_EVENT,
-                variables: { id: getEventById.id },
-                data: {
-                    getEventById: {
-                        insta: updateEvent.insta,
-                        title: updateEvent.title,
-                        imgUrl: updateEvent.imgUrl,
-                        start: updateEvent.start,
-                        end: updateEvent.end,
-                        bgColor: updateEvent.bgColor,
-                        initPayment: updateEvent.initPayment,
-                        totalPayment: updateEvent.totalPayment,
-                        rut: updateEvent.rut,
-                        name: updateEvent.name,
-                        email: updateEvent.email,
-                        address: updateEvent.address,
-                        birdDate: updateEvent.birdDate,
-                        phoneNumber: updateEvent.phoneNumber,
-                        user: updateEvent.user,
-                        desc: updateEvent.desc,
-                        hours: updateEvent.hours,
-                    }
-                }
-            })
-        }
-    });
+    const [updateEvent] = useMutation(UPDATE_EVENT);
 
 
     const formik = useFormik({
@@ -74,32 +39,21 @@ export default function ConfirmDate(props) {
             hours: Yup.number(),
         }),
         onSubmit: async values => {
-
-            const finalValues = {
-                ...values,
-                start: moment(getEventById.start).format(),
-                end: moment(getEventById.start).add(values.hours, 'h').format(),
-                birdDate: moment(values.birdDate).format(),
-                imgUrl: '',
-                bgColor: '#DC143C',
-                user: getEventById.user.id
-            }
-
             try {
+                const finalValues = {
+                    ...values,
+                    birdDate: moment(values.birdDate).format(),
+                    user: getEventById.user.id,
+                }
+
                 await updateEvent({
                     variables: {
                         id: getEventById.id,
                         input: finalValues
                     }
                 });
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Evento Editado!',
-                }).then(result => {
-                    if (result.isConfirmed) {
-                    }
-                });
-
+                refetch();
+                setModalState('info');
             } catch (err) {
                 Swal.fire({
                     icon: 'error',
@@ -112,49 +66,52 @@ export default function ConfirmDate(props) {
 
     return (
         <div className="confirm-date">
-            <div className="confirm-date__form">
+            <form className="confirm-date__form" onSubmit={formik.handleSubmit}>
                 <div className="confirm-date__form-group">
                     {formik.touched.rut && formik.errors.rut ? (<label className="input-group-alert">{formik.errors.rut}</label>) : (<label className="input-group-text">Rut</label>)}
                     <input type="text" name="rut" onBlur={formik.handleBlur} value={formik.values.rut} onChange={formik.handleChange} />
                 </div>
                 <div className="confirm-date__form-group">
-                    {formik.touched.rut && formik.errors.rut ? (<label className="section__input-group-alert">{formik.errors.rut}</label>) : (<label className="section__input-group-text">Rut</label>)}
-                    <input type="text" name="rut" onBlur={formik.handleBlur} value={formik.values.rut} onChange={formik.handleChange} />
+                    {formik.touched.name && formik.errors.name ? (<label className="section__input-group-alert">{formik.errors.name}</label>) : (<label className="section__input-group-text">Nombre</label>)}
+                    <input type="text" name="name" onBlur={formik.handleBlur} value={formik.values.name} onChange={formik.handleChange} />
                 </div>
                 <div className="confirm-date__form-group">
-                    {formik.touched.rut && formik.errors.rut ? (<label className="section__input-group-alert">{formik.errors.rut}</label>) : (<label className="section__input-group-text">Rut</label>)}
-                    <input type="text" name="rut" onBlur={formik.handleBlur} value={formik.values.rut} onChange={formik.handleChange} />
+                    {formik.touched.email && formik.errors.email ? (<label className="section__input-group-alert">{formik.errors.email}</label>) : (<label className="section__input-group-text">Email</label>)}
+                    <input type="email" name="email" onBlur={formik.handleBlur} value={formik.values.email} onChange={formik.handleChange} />
                 </div>
                 <div className="confirm-date__form-group">
-                    {formik.touched.rut && formik.errors.rut ? (<label className="section__input-group-alert">{formik.errors.rut}</label>) : (<label className="section__input-group-text">Rut</label>)}
-                    <input type="text" name="rut" onBlur={formik.handleBlur} value={formik.values.rut} onChange={formik.handleChange} />
+                    {formik.touched.address && formik.errors.address ? (<label className="section__input-group-alert">{formik.errors.address}</label>) : (<label className="section__input-group-text">Dirección</label>)}
+                    <input type="text" name="address" onBlur={formik.handleBlur} value={formik.values.address} onChange={formik.handleChange} />
                 </div>
                 <div className="confirm-date__form-group">
-                    {formik.touched.rut && formik.errors.rut ? (<label className="section__input-group-alert">{formik.errors.rut}</label>) : (<label className="section__input-group-text">Rut</label>)}
-                    <input type="text" name="rut" onBlur={formik.handleBlur} value={formik.values.rut} onChange={formik.handleChange} />
+                    {formik.touched.phoneNumber && formik.errors.phoneNumber ? (<label className="section__input-group-alert">{formik.errors.phoneNumber}</label>) : (<label className="section__input-group-text">Teléfono</label>)}
+                    <input type="text" name="phoneNumber" onBlur={formik.handleBlur} value={formik.values.phoneNumber} onChange={formik.handleChange} />
                 </div>
-            </div>
+                <div className="confirm-date__form-group">
+                    {formik.touched.birdDate && formik.errors.birdDate ? (<label className="section__input-group-alert">{formik.errors.birdDate}</label>) : (<label className="section__input-group-text">Fecha de nacimiento</label>)}
+                    <input type="date" name="birdDate" onBlur={formik.handleBlur} value={formik.values.birdDate} onChange={formik.handleChange} />
+                </div>
+                <div className="confirm-date__form-group">
+                    {formik.touched.hours && formik.errors.hours ? (<label className="section__input-group-alert">{formik.errors.hours}</label>) : (<label className="section__input-group-text">Duración de la sesión</label>)}
+                    <input type="number" name="hours" onBlur={formik.handleBlur} value={formik.values.hours} onChange={formik.handleChange} />
+                </div>
+                <div className="confirm-date__form-group">
+                    <button type="submit">Finalizar</button>
+                </div>
+            </form>
         </div>
     );
 }
 
 function initialValues(getEventById) {
     return {
-        insta: getEventById.insta,
-        title: getEventById.title,
-        imgUrl: '',
-        start: moment(getEventById.start).format('dddd D [de] MMMM [del] YYYY'),
-        end: getEventById.end,
-        bgColor: getEventById.bgColor,
-        initPayment: getEventById.initPayment,
-        totalPayment: getEventById.totalPayment,
-        rut: getEventById.rut,
-        name: getEventById.name,
-        email: getEventById.email,
-        address: getEventById.address,
-        birdDate: getEventById.birdDate,
-        phoneNumber: getEventById.phoneNumber,
-        desc: getEventById.desc,
+        rut: getEventById.rut || '',
+        name: getEventById.name || '',
+        email: getEventById.email || '',
+        address: getEventById.address || '',
+        birdDate: getEventById.birdDate || '',
+        phoneNumber: getEventById.phoneNumber || '',
+        desc: getEventById.desc || '',
         hours: getEventById.hours,
     }
 }

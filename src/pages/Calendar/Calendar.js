@@ -56,6 +56,7 @@ export default function AdmCalendar() {
     const [showModal, setShowModal] = useState(false);
     const [eventSelected, setEventSelected] = useState('');
     const [handleEvent, setHandleEvent] = useState('');
+    const [from, setFrom] = useState('');
     // const dispatch = useDispatch();
     const { data, loading, refetch } = useQuery(GET_EVENTS);
 
@@ -77,6 +78,7 @@ export default function AdmCalendar() {
     const onDoubleclick = (event) => {
         const { id } = event;
         setEventSelected( id );
+        setFrom('calendar')
         setShowModal(true);
     }
 
@@ -126,6 +128,7 @@ export default function AdmCalendar() {
                 setShowModal={ setShowModal } 
                 refetch={ refetch } 
                 handleSetupEvent= { handleSetupEvent }
+                from={ from }
             />
             
         </div>

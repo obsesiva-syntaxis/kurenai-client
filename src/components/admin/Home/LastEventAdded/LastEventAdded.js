@@ -10,7 +10,7 @@ import './LastEventAdded.scss';
 export default function LastEventAdded() {
 
     const { data, loading, startPolling, stopPolling, refetch } = useQuery(LAST_EVENTS_ADDED);
-
+    const [from, setFrom] = useState('');
     const [selectedEvent, setSelectedEvent] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [handleEvent, setHandleEvent] = useState('');
@@ -29,6 +29,7 @@ export default function LastEventAdded() {
 
     const handleEventSelected = event => {
         setSelectedEvent(event.id);
+        setFrom('home');
         setShowModal(true);
     }
 
@@ -64,6 +65,7 @@ export default function LastEventAdded() {
                     setShowModal={setShowModal}
                     refetch={refetch}
                     handleSetupEvent={handleSetupEvent}
+                    from={ from }
                 />
 
             </div>

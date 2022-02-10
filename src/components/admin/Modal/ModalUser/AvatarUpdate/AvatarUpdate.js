@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import './AvatarUpdate.scss';
 
 export default function AvatarUpdate( props ) {
-    const { auth,  setShowModal } = props;
+    const { getUser,  setShowModal } = props;
     const [fileUpload, setFileUpload] = useState(null);
     const [ updateAvatar ] = useMutation(UPDATE_AVATAR);
 
@@ -43,8 +43,9 @@ export default function AvatarUpdate( props ) {
                     text: 'Procediendo a refrescar la página',
                 }).then(result => {
                     if (result.isConfirmed) {
+                        setFileUpload(data.avatarUrl);
                         setShowModal(false);
-                        window.location.reload();
+                        // window.location.reload();
                     }
                 });
                 
@@ -60,7 +61,7 @@ export default function AvatarUpdate( props ) {
                 
                 {
                     !fileUpload ? 
-                    (<div className="avatar-update__box-avatar" style={{ backgroundImage: `url(${ auth.avatarUrl })` }} alt="" />)
+                    (<div className="avatar-update__box-avatar" style={{ backgroundImage: `url(${ getUser.avatarUrl })` }} alt="" />)
                     :
                     (<div className="avatar-update__box-avatar" style={{ backgroundImage: `url(${ fileUpload.preview })` }} alt="" />)
                 }

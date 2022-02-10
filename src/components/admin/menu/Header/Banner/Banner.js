@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ImageNotFound from '../../../../../assets/avatar.png';
 import { useQuery } from '@apollo/client';
 import { GET_POSTS } from '../../../../../graphql/post';
@@ -10,16 +10,11 @@ moment.locale('Es-mx');
 
 export default function Banner(props) {
     const { setShowModal, onHandleActions, getUser } = props;
-    const { data, loading } = useQuery(GET_POSTS);
-
-
+    
     const onHandleModalUser = () => {
         setShowModal(true);
         onHandleActions('main');
     }
-
-    if (loading) return null;
-    const { getPosts } = data;
 
     return (
         <div className="banner">
@@ -29,7 +24,7 @@ export default function Banner(props) {
 
             <div className="banner__info">
                 <label>{getUser.name}</label>
-                <marquee> {moment().format('dddd DD [de] MMMM [del] YYYY')} </marquee>
+                <marquee> { moment().format() } </marquee>
                 <div className="banner__info-bg"></div>
             </div>
         </div>

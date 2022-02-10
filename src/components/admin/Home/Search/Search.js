@@ -19,6 +19,7 @@ export default function Search() {
     const [handleSetupEvent, setHandleSetupEvent] = useState('edit');
     const [eventSelected, setEventSelected] = useState('');
     const [results, setResults] = useState([]);
+    const [from, setFrom] = useState('');
     const { data, loading, refetch } = useQuery(SEARCH, {
         variables: { search }
     });
@@ -67,10 +68,10 @@ export default function Search() {
             onSearchChange={ onChange }
             onResultSelect={ handleResultSelect }
             results={ results }
-            resultRenderer={(e) => <ResultSearch data={e} setShowModal={ setShowModal } setEventSelected={ setEventSelected } handleSetupEvent={ handleSetupEvent }/>}
+            resultRenderer={(e) => <ResultSearch data={e} setShowModal={ setShowModal } setEventSelected={ setEventSelected } handleSetupEvent={ handleSetupEvent } setFrom={ setFrom }/>}
             />
 
-            <ModalEvent showModal={ showModal } eventSelected={ eventSelected } setShowModal={ setShowModal } refetch={ refetch }/>
+            <ModalEvent showModal={ showModal } eventSelected={ eventSelected } setShowModal={ setShowModal } refetch={ refetch } from={ from }/>
         </div>
     )
 }

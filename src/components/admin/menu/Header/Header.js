@@ -50,7 +50,7 @@ export default function Header() {
 
             case 'avatar':
                 setTitleModal('Configurando Avatar');
-                setChildrenModal(<AvatarUpdate auth={auth} logout={logout} setShowModal={setShowModal} />);
+                setChildrenModal(<AvatarUpdate getUser={getUser} logout={logout} setShowModal={setShowModal} />);
                 break;
 
             case 'pass':

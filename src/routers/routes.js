@@ -25,12 +25,6 @@ const routes = [
         component: User,
         exact: true,
     },
-    // {
-    //     path: '/editevent',
-    //     layout: LayoutBasic,
-    //     component: EditEvent,
-    //     exact: true,
-    // },
 ]
 
 

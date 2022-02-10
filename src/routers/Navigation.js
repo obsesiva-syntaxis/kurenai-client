@@ -1,7 +1,9 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import routes from './routes';
-import { map } from 'lodash'
+import { map } from 'lodash';
+import Auth from '../pages/Auth/Auth';
+import Landing from '../pages/Landing';
 
 export default function Navigation() {
     return (
