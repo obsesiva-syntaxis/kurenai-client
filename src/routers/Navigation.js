@@ -1,35 +1,35 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import routes from './routes';
 import { map } from 'lodash';
+import Landing from '../pages/Landing';
+import Home from '../pages/Home';
+import LayoutBasic from '../layouts/LayoutBasic';
+import Calendar from '../pages/Calendar';
+import User from '../pages/User';
 
 export default function Navigation(props) {
     const { auth } = props;
     return (
         <Router>
-            <Switch>
-                {
-                    map(routes, (route, index) => (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            exact={route.exact}
-                            render={(props) => (
-                                <route.layout>
-                                    <route.component {...props} />
-                                </route.layout>
-                            )}
-                        />
-                    ))
-                }
+            <Routes>
+                <Route path="/admin" element={<LayoutBasic />}>
+                    <Route index element={<Home />} />
+                    <Route path="/admin/user" element={<User />} exact />
+                    <Route path="/admin/calendar" element={<Calendar />} exact />
+
+                    <Route path="*" element={<Navigate to="/admin" />} />
+                </Route>
+
+                <Route path="*" element={<Navigate to="/admin" />} />
                 {
                     auth ? (
-                            <Route render={() => <Redirect to="/" />} />
+                        <Route element={<Navigate to="/admin" />} />
                         ):(
-                            <Route render={() => <Redirect to="/admin" />} />
+                            <Route element={<Navigate to="/" />} />
                     )
                 }
-            </Switch>
+            </Routes>
         </Router>
     )
 }

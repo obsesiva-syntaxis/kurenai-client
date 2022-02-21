@@ -9,20 +9,20 @@ import User from '../pages/User';
 const routes = [
     {
         path: '/admin',
-        layout: LayoutBasic,
-        component: Home,
+        // layout: LayoutBasic,
+        component: <Home />,
         exact: true,
     },
     {
         path: '/admin/calendar',
-        layout: LayoutBasic,
-        component: Calendar,
+        // layout: LayoutBasic,
+        component: <Calendar />,
         exact: true,
     },
     {
         path: '/admin/user',
-        layout: LayoutBasic,
-        component: User,
+        // layout: LayoutBasic,
+        element: <User />,
         exact: true,
     },
 ]

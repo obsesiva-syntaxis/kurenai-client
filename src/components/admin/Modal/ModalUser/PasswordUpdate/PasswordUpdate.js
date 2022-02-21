@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useApolloClient } from '@apollo/client';
@@ -12,7 +12,7 @@ export default function PasswordUpdate( props ) {
     const { setShowModal, logout } = props;
     const [ modifyUser ] = useMutation(MODIFY_USER);
     const client = useApolloClient();
-    const history = useHistory();
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: initialValues(),
         validationSchema: Yup.object({
@@ -49,7 +49,7 @@ export default function PasswordUpdate( props ) {
                             client.clearStore();
                             setShowModal(false);
                             logout();
-                            history.push('/');
+                            navigate('/');
                         }
                     });
                 }

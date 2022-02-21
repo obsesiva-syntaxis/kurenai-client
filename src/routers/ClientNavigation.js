@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import routes from './routes';
 import { map } from 'lodash';
 import Auth from '../pages/Auth/Auth';
@@ -12,16 +12,14 @@ export default function ClientNavigation(props) {
     const { auth } = props;
     return (
         <Router>
-            <Switch>
-                <Route path="/login">
-                    <Auth />
-                </Route>
-                <Route path="/" render={Landing} exact />
-                <Route path="/wizard" render={Wizard} exact />
-                <Route path="/records" render={Records} exact />
-                <Route path="/tattoo" render={Tattoo} exact />
-                <Route render={() => <Redirect to="/" />} />
-            </Switch>
+            <Routes>
+                <Route path="/" element={<Landing />} exact />
+                <Route path="login" element={<Auth />} exact />
+                <Route path="wizard" element={<Wizard />} exact />
+                <Route path="records" element={<Records />} exact />
+                <Route path="tattoo" element={<Tattoo />} exact />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
         </Router>
     )
 }

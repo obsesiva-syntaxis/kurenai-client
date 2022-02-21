@@ -1,7 +1,7 @@
 //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 //Formik Library | Doc: https://formik.org/docs/overview
 import { useFormik } from 'formik';
@@ -24,7 +24,7 @@ export default function LoginForm() {
     const [error, setError] = useState('');
     const [authUser] = useMutation(AUTH_USER);
     const { setUser } = useAuth();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: initialValues(),
@@ -41,8 +41,8 @@ export default function LoginForm() {
                 const { token } = data.authUser;
                 setToken(token);
                 setUser(decodeToken(token));
-                history.push('/admin');
-                window.location.reload();
+                navigate('/admin');
+                // window.location.reload();
             } catch (err) {
                 setError(err.message);
             }

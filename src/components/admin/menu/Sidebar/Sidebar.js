@@ -2,25 +2,24 @@
 import React from 'react';
 
 //React Router Library | Doc: https://reactrouter.com/web/guides/quick-start
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom'
 
 import { useApolloClient } from '@apollo/client';
 import useAuth from '../../../../hooks/useAuth';
 
 import './Sidebar.scss';
-import { assertValidExecutionArguments } from 'graphql/execution/execute';
 
 export default function Sidebar() {
 
     const client = useApolloClient();
     const { logout, auth } = useAuth();
-    const history = useHistory();
+    const navigate  = useNavigate();
 
     const handleLogout = () => {
         client.clearStore();
         logout();
-        history.push('/');
+        navigate('/');
     }
 
     // const handleCalendar = () => {

@@ -49,7 +49,6 @@ export default function Today() {
                                         </div>
                                     </div>
                                 </div>
-                                <ModalEvent eventSelected={ todayEvent.id } showModal={ showModal } setShowModal={ setShowModal } refetch={ refetch } from={ from } />
                             </div>
                         ) : (
                             <div className="today__banner-event">
@@ -58,6 +57,9 @@ export default function Today() {
                         )
                     }
             </div>
+            {
+                todayEvent && <ModalEvent eventSelected={ todayEvent.id } showModal={ showModal } setShowModal={ setShowModal } refetch={ refetch } from={ from } />
+            }
         </div>
     );
 }

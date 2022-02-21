@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
-import { useHistory } from 'react-router-dom'; //React Router Library | Doc: https://reactrouter.com/web/guides/quick-start
+import { useNavigate } from 'react-router-dom'; //React Router Library | Doc: https://reactrouter.com/web/guides/quick-start
 import useAuth from '../../../../hooks/useAuth';
 import Banner from './Banner';
 import Today from './Today';
@@ -21,7 +21,7 @@ export default function Header() {
     const [showModal, setShowModal] = useState(false);
     const [titleModal, setTitleModal] = useState('');
     const [childrenModal, setChildrenModal] = useState(null);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const { data, loading, error, startPolling, stopPolling } = useQuery(GET_USER, {
         variables: {
@@ -38,7 +38,7 @@ export default function Header() {
 
     if (auth === null) {
         removeToken();
-        history.push('/');
+        navigate('/');
         window.location.reload();
     }
 
