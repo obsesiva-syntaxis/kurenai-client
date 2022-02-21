@@ -153,9 +153,7 @@
         clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
         animation: fadeFromBottom 1s ease;
 
-        &:hover {
-            cursor: pointer;
-        }
+        
     }
 }
 
@@ -167,6 +165,10 @@
     justify-content: center;
     align-items: center;
     font-family: 'Quicksand', sans-serif;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 @keyframes fadeFromTop{
