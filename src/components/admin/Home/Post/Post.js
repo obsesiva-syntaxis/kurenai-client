@@ -26,7 +26,7 @@ export default function Post( props ) {
   return (
       <div className="post">
         <div className="post__feed">
-          <PostList getPosts={ getPosts }  />
+          <PostList getPosts={ getPosts } auth={ auth } refetch={ refetch } />
         </div>
         <div className="post__form">
           <PostForm refetch={ refetch } auth={ auth } />

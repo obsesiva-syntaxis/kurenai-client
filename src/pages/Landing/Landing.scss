@@ -1,0 +1,194 @@
+@import '../../styles/style.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Island+Moments&family=Quicksand&display=swap');
+
+.landing {
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    grid-template-rows: 1fr;
+    width: 100vw;
+    height: 100vh;
+    gap: 15px;
+
+    &__banner1 {
+        grid-column: 2/3;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 1s ease;
+    }
+
+    &__banner2 {
+        grid-column: 3/4;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 2s ease;
+    }
+
+    &__banner3 {
+        grid-column: 4/5;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 3s ease;
+    }
+
+    &__banner4 {
+        grid-column: 5/6;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 4s ease;
+    }
+
+    &__banner5 {
+        grid-column: 6/7;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 5s ease;
+    }
+
+    &__banner6 {
+        grid-column: 7/8;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 6s ease;
+    }
+    &__banner7 {
+        grid-column: 8/9;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 6s ease;
+    }
+    &__banner8 {
+        grid-column: 9/10;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 6s ease;
+    }
+    &__banner9 {
+        grid-column: 10/11;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 6s ease;
+    }
+    &__banner10 {
+        grid-column: 11/12;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 6s ease;
+    }
+    &__banner11 {
+        grid-column: 12/13;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 6s ease;
+    }
+    &__banner12 {
+        grid-column: 13/14;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 6s ease;
+    }
+    &__banner13 {
+        grid-column: 14/15;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 6s ease;
+    }
+    &__banner14 {
+        grid-column: 15/16;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 6s ease;
+    }
+    &__banner15 {
+        grid-column: 16/17;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 6s ease;
+    }
+    &__banner16 {
+        grid-column: 17/18;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 6s ease;
+    }
+    &__banner17 {
+        grid-column: 18/19;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 6s ease;
+    }
+    &__banner18 {
+        grid-column: 19/20;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 6s ease;
+    }
+    &__banner19 {
+        grid-column: 20/21;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 5s ease;
+    }
+    &__banner20 {
+        grid-column: 21/22;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 4s ease;
+    }
+    &__banner21 {
+        grid-column: 22/23;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromTop 3s ease;
+    }
+    &__banner22 {
+        grid-column: 23/24;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 2s ease;
+    }
+    &__banner23 {
+        grid-column: 24/25;
+        background-color: crimson;
+        clip-path: polygon(0 5%, 100% 1%, 100% 90%, 0 95%);
+        animation: fadeFromBottom 1s ease;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+
+.title {
+    color: #fff;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Quicksand', sans-serif;
+}
+
+@keyframes fadeFromTop{
+    0%{
+        opacity: 0;
+        transform: translateY(-500px);
+    }
+    
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes fadeFromBottom{
+    0%{
+        opacity: 0;
+        transform: translateY(500px);
+    }
+    
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}

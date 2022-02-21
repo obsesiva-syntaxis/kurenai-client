@@ -9,8 +9,8 @@ export const CREATE_EVENT = gql`
 `;
 
 export const DELETE_EVENT = gql`
-    mutation deleteEvent( $id: ID!){
-        deleteEvent( id: $id){
+    mutation deleteEvent( $id: ID! ){
+        deleteEvent( id: $id ){
             name
             id
         }
@@ -110,6 +110,7 @@ export const SEARCH = gql`
 export const TODAY = gql`
     query todayEvent {
         todayEvent{
+            id
             title
             insta
             hours
@@ -126,6 +127,7 @@ export const TODAY = gql`
 export const TOMORROW = gql`
     query tomorrowEvent {
         tomorrowEvent{
+            id
             title
             insta
             hours

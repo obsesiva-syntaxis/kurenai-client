@@ -18,9 +18,16 @@ export const GET_POSTS = gql`
             message
             postDate
             user {
+                id
                 name
                 avatarUrl
             }
         }
+    }
+`;
+
+export const DELETE_POST = gql`
+    mutation deletePost( $id: ID! ){
+        deletePost(id: $id)
     }
 `;

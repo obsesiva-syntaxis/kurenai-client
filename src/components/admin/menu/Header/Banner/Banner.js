@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ImageNotFound from '../../../../../assets/avatar.png';
-import { useQuery } from '@apollo/client';
-import { GET_POSTS } from '../../../../../graphql/post';
 import moment from 'moment';
 
 import 'moment/locale/es-mx';
@@ -24,7 +22,7 @@ export default function Banner(props) {
 
             <div className="banner__info">
                 <label>{getUser.name}</label>
-                <marquee> { moment().format() } </marquee>
+                <marquee> { moment().format('DD [de] MMMM [del] YYYY') } </marquee>
                 <div className="banner__info-bg"></div>
             </div>
         </div>

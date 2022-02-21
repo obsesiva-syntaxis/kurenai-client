@@ -5,15 +5,12 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './apollo/config';
 
-// //REDUX PROVIDER
-// import { Provider } from 'react-redux';
-// import { store } from './redux/store/store';
 
 import { getToken, decodeToken, removeToken } from './utils/token';
 import AuthContext from './context/AuthContext';
 import Navigation from './routers/Navigation';
-import Landing from './pages/Landing';
 import ClientNavigation from './routers/ClientNavigation';
+import moment from 'moment';
 
 //Pages
 import Auth from './pages/Auth';
@@ -30,7 +27,11 @@ export const App = () => {
         if (!token) {
             setAuth(null);
         } else {
-            setAuth(decodeToken(token));
+            if(moment(decodeToken(token).exp * 1000).format() < moment().format()){
+                setAuth(null);
+            } else {
+                setAuth(decodeToken(token));
+            }
         }
     }, []);
 
@@ -62,7 +63,7 @@ export const App = () => {
         <ApolloProvider client={client}>
             <AuthContext.Provider value={authData}>
                 {
-                    !auth ? <ClientNavigation /> : <Navigation />
+                    !auth ? <ClientNavigation /> : <Navigation auth={ auth } />
                 }
             </AuthContext.Provider>
         </ApolloProvider>

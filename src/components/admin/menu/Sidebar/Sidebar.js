@@ -50,7 +50,7 @@ export default function Sidebar() {
                 {/* <span className="sidebar__item">Calendar</span> */}
             </div>
             {
-                auth.type === 'admin' && (
+                auth.type === 'overlord' && (
                     <div className="sidebar__icon-group">
                         <Link to='/admin/user'>
                             <i className="sidebar__icon fas fa-users"></i>

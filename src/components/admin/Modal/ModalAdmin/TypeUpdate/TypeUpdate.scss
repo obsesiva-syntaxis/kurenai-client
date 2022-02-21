@@ -1,0 +1,49 @@
+@import '../../../../../styles/style.scss';
+
+.type-update {
+    height: 100%;
+    
+    form {
+        height: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 7px;
+
+        select {
+            font-family: $font-info;
+            font-size: 13px;
+            width: 100%;
+            outline: none;
+            border: none;
+            border-bottom: 1.5px solid #ffffff;
+            background: #e7e7e7;
+            border-radius: 0 5px 0 5px;
+            padding: 5px;
+
+            &:hover {
+                border: 1.5px solid #dc143c;
+                box-shadow: 0px 0px 5px 0px #dc143c;
+            }
+
+            &:focus {
+                border: 1.5px solid #dc143c;
+                box-shadow: 0px 0px 5px 2px #dc143c;
+                transition: box-shadow 0.5s ease-out;
+            }
+        }
+
+        button {
+            font-family: $font-info;
+            border: none;
+            background: #fff;
+            border-bottom: 1px solid #ababab;
+            
+            &:hover {
+                border-bottom: 1px solid $color-first;
+                font-weight: bold;
+                color: $color-first;
+            }
+        }
+    }
+}

@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import routes from './routes';
 import { map } from 'lodash';
-import Auth from '../pages/Auth/Auth';
-import Landing from '../pages/Landing';
 
-export default function Navigation() {
+export default function Navigation(props) {
+    const { auth } = props;
     return (
         <Router>
             <Switch>
@@ -22,6 +21,13 @@ export default function Navigation() {
                             )}
                         />
                     ))
+                }
+                {
+                    auth ? (
+                            <Route render={() => <Redirect to="/" />} />
+                        ):(
+                            <Route render={() => <Redirect to="/admin" />} />
+                    )
                 }
             </Switch>
         </Router>

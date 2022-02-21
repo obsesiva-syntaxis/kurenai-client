@@ -7,6 +7,7 @@ import ModalUser from '../../Modal/ModalUser';
 import UserActions from '../../Modal/ModalUser/UserActions';
 import AvatarUpdate from '../../Modal/ModalUser/AvatarUpdate';
 import PasswordUpdate from '../../Modal/ModalUser/PasswordUpdate';
+import NicknameUpdate from '../../Modal/ModalUser/NicknameUpdate';
 // import Search from '../../Home/Search';
 import { useQuery } from '@apollo/client';
 import { GET_USER } from '../../../../graphql/user';
@@ -51,6 +52,10 @@ export default function Header() {
             case 'avatar':
                 setTitleModal('Configurando Avatar');
                 setChildrenModal(<AvatarUpdate getUser={getUser} logout={logout} setShowModal={setShowModal} />);
+                break;
+            case 'nickname':
+                setTitleModal('Configurando Nickname');
+                setChildrenModal(<NicknameUpdate getUser={getUser} setShowModal={setShowModal} />);
                 break;
 
             case 'pass':

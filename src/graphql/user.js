@@ -44,3 +44,18 @@ export const MODIFY_USER = gql`
         modifyUser( input: $input )
     }
 `;
+
+export const CREATE_USER = gql`
+    mutation createUser( $input: UserInput ){
+        createUser( input: $input ){
+            name
+            email
+        }
+    }
+`;
+
+export const DELETE_USER = gql`
+    mutation deleteUser( $id: ID! ){
+        deleteUser( id: $id )
+    }
+`;

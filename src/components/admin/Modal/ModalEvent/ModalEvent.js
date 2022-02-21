@@ -298,7 +298,7 @@ export default function ModalEvent(props) {
     );
 
     return (
-        <Modal className="modal-event" overlayClassName="modal-fondo" isOpen={showModal} closeTimeoutMS={200} onRequestClose={closeModal} >
+        <Modal className="modal-event" overlayClassName="modal-fondo" isOpen={showModal} onRequestClose={closeModal} >
 
             <h1 className="modal-event__title">Información Evento</h1>
             <div className="modal-event__body">

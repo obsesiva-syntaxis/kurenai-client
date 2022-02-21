@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { TODAY } from '../../../../../graphql/event';
+import ModalEvent from '../../../Modal/ModalEvent/ModalEvent';
 
 import './Today.scss';
 
 export default function Today() {
-    const { data, loading } = useQuery(TODAY);
+    const { data, loading, refetch } = useQuery(TODAY);
+    const [showModal, setShowModal] = useState(false);
+    const [from, setFrom] = useState('home');
 
     if (loading) return null;
-
     const { todayEvent } = data;
 
-    
+    const handleShowModal = () => {
+        setShowModal(true);
+    }
+
+    const closeModalFromToday = () => {
+        setShowModal(false);
+    }
 
     return (
         <div className="today">
@@ -24,11 +32,11 @@ export default function Today() {
                 {
                     todayEvent ?
                         (
-                            <div className="today__banner-event">
+                            <div className="today__banner-event" onClick={handleShowModal}>
                                 <h2 className="today__banner-event-title">{todayEvent.insta}</h2>
                                 <div className="today__banner-event-info">
                                     <div className="today__banner-event-info-first">
-                                        <p>Evento :</p>
+                                        <p>Evento</p>
                                         <p>{todayEvent.title}</p>
                                     </div>
                                     <div className="today__banner-event-info-second">
@@ -37,18 +45,18 @@ export default function Today() {
                                             <p>{todayEvent.hours} hrs</p>
                                         </div>
                                         <div className="today__banner-event-info-second-contact">
-                                            <p>Contacto:</p>
                                             <p>{todayEvent.phoneNumber}</p>
                                         </div>
                                     </div>
                                 </div>
+                                <ModalEvent eventSelected={ todayEvent.id } showModal={ showModal } setShowModal={ setShowModal } refetch={ refetch } from={ from } />
                             </div>
                         ) : (
                             <div className="today__banner-event">
                                 <h1 className="today__banner-event-free">LIBRE</h1>
                             </div>
                         )
-                }
+                    }
             </div>
         </div>
     );

@@ -33,7 +33,7 @@ export default function PasswordUpdate( props ) {
                 if(!result.data.modifyUser){
                     Swal.fire({
                         icon: 'error',
-                        title: 'No se realizo el cambio de contraseña',
+                        title: 'No se realizó el cambio de contraseña',
                     }).then(result => {
                         if (result.isConfirmed) {
                             setShowModal(false);

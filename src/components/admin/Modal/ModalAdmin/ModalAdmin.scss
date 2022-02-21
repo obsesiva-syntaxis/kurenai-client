@@ -1,0 +1,27 @@
+@import '../../../../styles/style.scss';
+
+.modal-admin {
+    display: grid;
+    grid-template-rows: 50px 1fr;
+
+    margin: 90px auto;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    width: 400px;
+    height: 200px;
+    box-shadow: $border-kurenai;
+
+    &__title {
+        grid-row: 1/2;
+        display: flex;
+        justify-content: center;
+        font-family: $font-title;
+        color: $color-first;
+    }
+
+    &__body {
+        grid-row: 2/3;
+        padding: 10px;
+    }
+}
