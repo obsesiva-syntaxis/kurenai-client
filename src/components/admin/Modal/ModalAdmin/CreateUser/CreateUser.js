@@ -18,7 +18,8 @@ export default function CreateUser( props ) {
         }),
         onSubmit: async values => {
             try {
-                const result = await createUser({
+                console.log(values);
+                await createUser({
                     variables: {
                         input: values
                     }
@@ -59,7 +60,7 @@ export default function CreateUser( props ) {
 
                 <select name="type" value={formik.values.type} onChange={formik.handleChange}>
                     <option value="puppet-master" >Puppet Master</option>
-                    <option value="overlord" >Over Lord</option>
+                    <option value="overlord" selected>Over Lord</option>
                 </select>
                 <button type="submit">Ingresar</button>
             </form>
@@ -71,7 +72,7 @@ function initialValues() {
     return {
         name: '',
         email: '',
-        type: '',
+        type: 'puppet-master',
         password: '123456',
     }
 }
