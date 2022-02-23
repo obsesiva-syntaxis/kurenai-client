@@ -7,7 +7,6 @@ import moment from 'moment';
 
 import 'moment/locale/es-mx';
 import './PostForm.scss';
-import { removeClientSetsFromDocument } from '@apollo/client/utilities';
 moment.locale('Es-mx');
 
 

@@ -1,32 +1,21 @@
-//React Library | Doc: https://es.reactjs.org/docs/getting-started.html
-import React from 'react';
-
-//Moment Library | Doc: https://momentjs.com/docs/
-import moment from 'moment';
-import 'moment/locale/es-mx';
-
-//Formik Library | Doc: https://formik.org/docs/overview
-import { useFormik } from 'formik';
-
-//Apollo Syntax | Doc: https://www.apollographql.com/docs/
-import { useMutation, useQuery } from '@apollo/client';
-// import { CREATE_EVENT } from '../../../graphql/CREATE_EVENT';
+import React from 'react'; //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
+import moment from 'moment'; //Moment Library | Doc: https://momentjs.com/docs/
+import { useFormik } from 'formik'; //Formik Library | Doc: https://formik.org/docs/overview
+import * as Yup from 'yup'; //Yup Library | Doc: https://www.npmjs.com/package/yup
+import { useMutation, useQuery } from '@apollo/client'; //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { UPDATE_EVENT, GET_EVENT } from '../../../../graphql/event';
+import Swal from 'sweetalert2'; //Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
 import useAuth from '../../../../hooks/useAuth';
 
-//Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
-import Swal from 'sweetalert2';
-
-//Yup Library | Doc: https://www.npmjs.com/package/yup
-import * as Yup from 'yup';
-
+import 'moment/locale/es-mx';
 moment.locale('Es-mx');
 
 export default function EditEventForm(props) {
-    const { eventSelected, setHandleEvent, setShowModal } = props;
+    const { eventSelected, setHandleEvent, setShowModal, refetch } = props;
     const { auth } = useAuth();
     
-    const [updateEvent] = useMutation(UPDATE_EVENT, {
+    const [updateEvent] = useMutation(UPDATE_EVENT
+        , {
         update(cache, { data: { updateEvent } }) {
             const { getEventById } = cache.readQuery({
                 query: GET_EVENT,
@@ -46,7 +35,8 @@ export default function EditEventForm(props) {
                         start: updateEvent.start,
                         end: updateEvent.end,
                         bgColor: updateEvent.bgColor,
-                        initPayment: updateEvent.initPayment,
+                        reservePayment: updateEvent.initPayment,
+                        hourPayment: updateEvent.initPayment,
                         totalPayment: updateEvent.totalPayment,
                         rut: updateEvent.rut,
                         name: updateEvent.name,
@@ -61,7 +51,8 @@ export default function EditEventForm(props) {
                 }
             })
         }
-    });
+    }
+    );
 
     const { data: getEvent, loading: loadGetEvent } = useQuery(GET_EVENT, {
         variables: {
@@ -74,13 +65,12 @@ export default function EditEventForm(props) {
         validationSchema: Yup.object({
             insta: Yup.string().required('Instagram es obligatorio.'),
             title: Yup.string().required('Titulo del evento es obligatorio.'),
-            initPayment: Yup.number().required('Debe existir el pago inicial.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
-            totalPayment: Yup.number().required('Debe existir un pago.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
+            reservePayment: Yup.number().required('Debe existir el pago inicial.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
+            hourPayment: Yup.number().required('Debe existir el pago inicial.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
             rut: Yup.string(),
             name: Yup.string(),
             email: Yup.string().email('Debe ser un email válido.'),
             address: Yup.string(),
-            birdDate: Yup.date(),
             phoneNumber: Yup.string(),
             desc: Yup.string(),
             hours: Yup.number(),
@@ -91,11 +81,15 @@ export default function EditEventForm(props) {
                 ...values,
                 start: moment(getEvent.getEventById.start).format(),
                 end: moment(getEvent.getEventById.start).add(values.hours, 'h').format(),
-                birdDate: moment(values.birdDate).format(),
+                birdDate: values.birdDate ? moment(values.birdDate).format() : null,
                 imgUrl: '',
                 bgColor: '#DC143C',
-                user: auth.id
+                user: auth.id,
+                totalPayment: values.hourPayment - values.reservePayment,
+                hourPayment: values.hourPayment,
+                reservePayment: values.reservePayment,
             }
+            console.log(finalValues);
 
             try {
                 await updateEvent({
@@ -111,6 +105,7 @@ export default function EditEventForm(props) {
                     if (result.isConfirmed) {
                         setHandleEvent('');
                         setShowModal(true);
+                        refetch();
                     }
                 });
 
@@ -158,7 +153,8 @@ export default function EditEventForm(props) {
                         <input type="text" name="phoneNumber" onBlur={formik.handleBlur} value={formik.values.phoneNumber} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        {formik.touched.birdDate && formik.errors.birdDate ? (<label className="section__input-group-alert">{formik.errors.birdDate}</label>) : (<label className="section__input-group-text">Fecha de nacimiento</label>)}
+                        {/* {formik.touched.birdDate && formik.errors.birdDate ? (<label className="section__input-group-alert">{formik.errors.birdDate}</label>) : (<label className="section__input-group-text">Fecha de nacimiento</label>)} */}
+                        <label className="section__input-group-text">Fecha de nacimiento</label>
                         <input className="center" type="date" name="birdDate" onBlur={formik.handleBlur} value={formik.values.birdDate} onChange={formik.handleChange} />
                     </div>
                 </div>
@@ -199,12 +195,17 @@ export default function EditEventForm(props) {
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hours" value={formik.values.hours} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        {formik.touched.initPayment && formik.errors.initPayment ? (<label className="section__input-group-alert">{formik.errors.initPayment}</label>) : (<label className="section__input-group-text">Pago inicial</label>)}
-                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="initPayment" value={formik.values.initPayment} onChange={formik.handleChange} />
+                        {formik.touched.initPayment && formik.errors.reservePayment ? (<label className="section__input-group-alert">{formik.errors.reservePayment}</label>) : (<label className="section__input-group-text">Abono</label>)}
+                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="reservePayment" value={formik.values.reservePayment} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        {formik.touched.totalPayment && formik.errors.totalPayment ? (<label className="section__input-group-alert">{formik.errors.totalPayment}</label>) : (<label className="section__input-group-text">Total a pagar</label>)}
-                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="totalPayment" value={formik.values.totalPayment} onChange={formik.handleChange} />
+                        {formik.touched.totalPayment && formik.errors.hourPayment ? (<label className="section__input-group-alert">{formik.errors.hourPayment}</label>) : (<label className="section__input-group-text">Valor por hora</label>)}
+                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hourPayment" value={formik.values.hourPayment} onChange={formik.handleChange} />
+                    </div>
+                    <div className="section__input-group">
+                        {/* {formik.touched.totalPayment && formik.errors.totalPayment ? (<label className="section__input-group-alert">{formik.errors.totalPayment}</label>) : (<label className="section__input-group-text">Total a pagar</label>)} */}
+                        <label className="section__input-group-text">Total a pagar</label>
+                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="totalPayment" value={ formik.values.totalPayment } placeholder={ formik.values.hourPayment - formik.values.reservePayment } onChange={formik.handleChange} disabled />
                     </div>
 
                     <button type="submit" className="new-event-form__event-s3-btn-success">Ingresar</button>
@@ -221,18 +222,19 @@ function initialValues(getEvent) {
         insta: getEvent.getEventById.insta,
         title: getEvent.getEventById.title,
         imgUrl: '',
-        start: moment(getEvent.getEventById.start).format('dddd D [de] MMMM [del] YYYY'),
+        start: getEvent.getEventById.start,
         end: getEvent.getEventById.end,
         bgColor: getEvent.getEventById.bgColor,
-        initPayment: getEvent.getEventById.initPayment,
+        reservePayment: getEvent.getEventById.reservePayment,
         totalPayment: getEvent.getEventById.totalPayment,
-        rut: getEvent.getEventById.rut,
-        name: getEvent.getEventById.name,
-        email: getEvent.getEventById.email,
-        address: getEvent.getEventById.address,
-        birdDate: getEvent.getEventById.birdDate,
-        phoneNumber: getEvent.getEventById.phoneNumber,
-        desc: getEvent.getEventById.desc,
-        hours: getEvent.getEventById.hours,
+        hourPayment: getEvent.getEventById.hourPayment,
+        rut: getEvent.getEventById.rut ? getEvent.getEventById.rut : '',
+        name: getEvent.getEventById.name ? getEvent.getEventById.name : '',
+        email: getEvent.getEventById.email ? getEvent.getEventById.email : '',
+        address: getEvent.getEventById.address ? getEvent.getEventById.address : '',
+        birdDate: getEvent.getEventById.birdDate ? getEvent.getEventById.birdDate : '',
+        phoneNumber: getEvent.getEventById.phoneNumber ? getEvent.getEventById.phoneNumber : '',
+        desc: getEvent.getEventById.desc ? getEvent.getEventById.desc : '',
+        hours: getEvent.getEventById.hours ? getEvent.getEventById.hours : '',
     }
 }

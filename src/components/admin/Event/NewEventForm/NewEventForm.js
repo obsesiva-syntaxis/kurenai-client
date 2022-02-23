@@ -1,55 +1,45 @@
-//React Library | Doc: https://es.reactjs.org/docs/getting-started.html
-import React from 'react';
-
-//Moment Library | Doc: https://momentjs.com/docs/
-import moment from 'moment';
-import 'moment/locale/es-mx';
-
-//Formik Library | Doc: https://formik.org/docs/overview
-import { useFormik } from 'formik';
-
-//Apollo Syntax | Doc: https://www.apollographql.com/docs/
-import { useMutation, useQuery } from '@apollo/client';
+import React from 'react'; //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
+import moment from 'moment'; //Moment Library | Doc: https://momentjs.com/docs/
+import { useFormik } from 'formik'; //Formik Library | Doc: https://formik.org/docs/overview
+import { useMutation } from '@apollo/client'; //Apollo Syntax | Doc: https://www.apollographql.com/docs/
 import { CREATE_EVENT, GET_EVENTS } from '../../../../graphql/event';
 import useAuth from '../../../../hooks/useAuth';
+import Swal from 'sweetalert2'; //Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
+import * as Yup from 'yup'; //Yup Library | Doc: https://www.npmjs.com/package/yup
 
-//Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
-import Swal from 'sweetalert2';
-
-//Yup Library | Doc: https://www.npmjs.com/package/yup
-import * as Yup from 'yup';
-
+import 'moment/locale/es-mx';
 import './NewEventForm.scss';
 
 moment.locale('Es-mx');
 
 export default function NewEvent( props ) {
-
-    const { dateSelected, setHandleEvent, setDateSelected } = props;
+    const { dateSelected, setHandleEvent, setDateSelected, refetch } = props;
     const { auth } = useAuth();
 
     //HOOKS INIT
-    const [createEvent] = useMutation(CREATE_EVENT, {
-        update(cache, { data: { createEvent } }) {
-            //obtener el objeto de cache
-            const { getEvents } = cache.readQuery({ query: GET_EVENTS })
-            //reescribir ese objeto
-            cache.writeQuery({
-                query: GET_EVENTS,
-                data: {
-                    getEvents: [...getEvents, createEvent]
-                }
-            })
-        }
-    });
+    const [createEvent] = useMutation(CREATE_EVENT
+    //     , {
+    //     update(cache, { data: { createEvent } }) {
+    //         //obtener el objeto de cache
+    //         const { getEvents } = cache.readQuery({ query: GET_EVENTS })
+    //         //reescribir ese objeto
+    //         cache.writeQuery({
+    //             query: GET_EVENTS,
+    //             data: {
+    //                 getEvents: [...getEvents, createEvent]
+    //             }
+    //         })
+    //     }
+    // }
+    );
 
     const formik = useFormik({
         initialValues: initialValues(),
         validationSchema: Yup.object({
             insta: Yup.string().required('Instagram es obligatorio.'),
             title: Yup.string().required('Titulo del evento es obligatorio.'),
-            initPayment: Yup.number().required('Debe existir el pago inicial.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
-            totalPayment: Yup.number().required('Debe existir un pago.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
+            reservePayment: Yup.number().required('Debe existir el pago inicial.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
+            hourPayment: Yup.number().required('Debe existir el pago inicial.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
             rut: Yup.string(),
             name: Yup.string(),
             email: Yup.string().email('Debe ser un email válido.'),
@@ -59,6 +49,7 @@ export default function NewEvent( props ) {
             hours: Yup.number().required('Debe ingresar un mínimo').positive('Debe ser un valor positivo').integer('Debe ser un numero entero'),
         }),
         onSubmit: async values => {
+            // console.log(values);
             const finalValues = {
                 ...values,
                 start: moment(dateSelected).hours(11).format(),
@@ -66,10 +57,12 @@ export default function NewEvent( props ) {
                 birdDate: !values.birdDate === '' ? moment(values.birdDate) : null,
                 imgUrl: '',
                 user: auth.id,
+                totalPayment: values.hourPayment - values.reservePayment,
+                reservePayment: values.reservePayment,
+                hourPayment: values.hourPayment,
             }
-            // const { insta, title, imgUrl, start, end, bgColor, initPayment, totalPayment, rut, name, email, address, birdDate, phoneNumber, desc, user, userName, hours } = finalValues;
             try {
-                const result = await createEvent({
+                await createEvent({
                     variables: {
                         input: finalValues
                     }
@@ -81,6 +74,7 @@ export default function NewEvent( props ) {
                     if (result.isConfirmed) {
                         setDateSelected('');
                         setHandleEvent('');
+                        refetch();
                     }
                 });
 
@@ -143,7 +137,6 @@ export default function NewEvent( props ) {
                     </div>
                     <div className="section__input-group">
                         <label className="section__input-group-text">Tatuador</label>
-                        {/* <input className="event__input" type="text" name="address" value="Bruno Salas Ink" onBlur={formik.handleBlur} disabled onChange={formik.handleChange} /> */}
                         <select name="bgColor" value={formik.values.bgColor} onChange={formik.handleChange}>
                             <option value="#DC143C" >Bruno Salas Ink</option>
                             {/* <option value="#663399" >Mario CTM Ink</option> */}
@@ -157,7 +150,6 @@ export default function NewEvent( props ) {
                     <div className="section__input-group">
                         <label className="section__input-group-text">Descripción:</label>
                         <textarea className="section__input-group-textarea" type="text" name="desc" onBlur={formik.handleBlur} value={formik.values.desc} onChange={formik.handleChange} cols="1" rows="1"></textarea>
-                        {/* <input className="event__input center" type="text" name="start" onBlur={formik.handleBlur} value={date} disabled onChange={formik.handleChange} /> */}
                     </div>
 
                 </div>
@@ -168,12 +160,16 @@ export default function NewEvent( props ) {
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hours" value={formik.values.hours} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        {formik.touched.initPayment && formik.errors.initPayment ? (<label className="section__input-group-alert">{formik.errors.initPayment}</label>) : (<label className="section__input-group-text">Pago inicial</label>)}
-                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="initPayment" value={formik.values.initPayment} onChange={formik.handleChange} />
+                        {formik.touched.reservePayment && formik.errors.reservePayment ? (<label className="section__input-group-alert">{formik.errors.reservePayment}</label>) : (<label className="section__input-group-text">Pago inicial</label>)}
+                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="reservePayment" value={formik.values.reservePayment} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        {formik.touched.totalPayment && formik.errors.totalPayment ? (<label className="section__input-group-alert">{formik.errors.totalPayment}</label>) : (<label className="section__input-group-text">Total a pagar</label>)}
-                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="totalPayment" value={formik.values.totalPayment} onChange={formik.handleChange} />
+                        {formik.touched.hourPayment && formik.errors.hourPayment ? (<label className="section__input-group-alert">{formik.errors.hourPayment}</label>) : (<label className="section__input-group-text">Valor por hora</label>)}
+                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hourPayment" value={formik.values.hourPayment} onChange={formik.handleChange} />
+                    </div>
+                    <div className="section__input-group">
+                        <label className="section__input-group-text">Total a pagar</label>
+                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="totalPayment" value={formik.values.totalPayment} placeholder={formik.values.hourPayment - formik.values.reservePayment} onChange={formik.handleChange} disabled />
                     </div>
 
                     <button type="submit" className="new-event-form__event-s3-btn-success">Ingresar</button>
@@ -193,7 +189,8 @@ function initialValues() {
         start: '',
         end: '',
         bgColor: '#DC143C',
-        initPayment: '',
+        reservePayment: '',
+        hourPayment: '',
         totalPayment: '',
         rut: '',
         name: '',

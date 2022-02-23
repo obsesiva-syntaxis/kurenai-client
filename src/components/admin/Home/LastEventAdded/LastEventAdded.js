@@ -8,7 +8,6 @@ import EditEventForm from '../../Event/EditEventForm';
 import './LastEventAdded.scss';
 
 export default function LastEventAdded() {
-
     const { data, loading, startPolling, stopPolling, refetch } = useQuery(LAST_EVENTS_ADDED);
     const [from, setFrom] = useState('');
     const [selectedEvent, setSelectedEvent] = useState('');
@@ -58,7 +57,6 @@ export default function LastEventAdded() {
                         ))
                     }
                 </div>
-
                 <ModalEvent
                     showModal={showModal}
                     eventSelected={selectedEvent}
@@ -67,10 +65,7 @@ export default function LastEventAdded() {
                     handleSetupEvent={handleSetupEvent}
                     from={ from }
                 />
-
             </div>
-
-
         </>
     )
 }

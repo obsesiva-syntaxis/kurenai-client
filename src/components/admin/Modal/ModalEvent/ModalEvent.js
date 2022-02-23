@@ -14,7 +14,7 @@ import './ModalEvent.scss';
 Modal.setAppElement('#root');
 
 export default function ModalEvent(props) {
-    const { showModal, setShowModal, eventSelected, handleSetupEvent, from } = props;
+    const { showModal, setShowModal, eventSelected, handleSetupEvent, from, refetchCalendar } = props;
     const [deleteEvent] = useMutation(DELETE_EVENT);
     const [modalState, setModalState] = useState('info');
     const { data, loading, refetch } = useQuery(GET_EVENT, {
@@ -23,7 +23,6 @@ export default function ModalEvent(props) {
         }
     });
 
-    
     const closeModal = () => {
         setModalState('info');
         setShowModal(false);
@@ -68,7 +67,7 @@ export default function ModalEvent(props) {
                         'success'
                     ).then(result => {
                         if (result.isConfirmed) {
-                            refetch();
+                            if( from === 'calendar' ) refetchCalendar();
                             setShowModal(false);
                         }
                     })

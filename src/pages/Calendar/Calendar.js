@@ -94,10 +94,10 @@ export default function AdmCalendar() {
         switch (type) {
             case 'edit':
                 setShowMode('');
-                setHandleEvent(<EditEventForm eventSelected={ eventSelected } setShowModal={ setShowModal } setHandleEvent={ setHandleEvent } />);
+                setHandleEvent(<EditEventForm eventSelected={ eventSelected } setShowModal={ setShowModal } setHandleEvent={ setHandleEvent } refetch={ refetch } />);
                 break;
             case 'new':
-                setHandleEvent(<NewEventForm dateSelected={ date } setHandleEvent={ setHandleEvent } setDateSelected={ setDateSelected }  />);
+                setHandleEvent(<NewEventForm dateSelected={ date } setHandleEvent={ setHandleEvent } setDateSelected={ setDateSelected } refetch={ refetch } />);
                 break;
             default:
                 break;
@@ -118,7 +118,7 @@ export default function AdmCalendar() {
                         onDoubleClickEvent={ onDoubleclick }
                         onSelectEvent={ onSelectEvent }
                         onSelectSlot={ onSelectSlot }
-                        views={['month','day']}
+                        views={['month']}
                     /> : handleEvent
             }
 
@@ -126,7 +126,7 @@ export default function AdmCalendar() {
                 showModal={ showModal } 
                 eventSelected={ eventSelected } 
                 setShowModal={ setShowModal } 
-                refetch={ refetch } 
+                refetchCalendar={ refetch } 
                 handleSetupEvent= { handleSetupEvent }
                 from={ from }
             />

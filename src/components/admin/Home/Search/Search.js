@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search as SearchSU, Image } from 'semantic-ui-react';
+import { Search as SearchSU } from 'semantic-ui-react';
 import { size } from 'lodash';
 import { useQuery } from '@apollo/client';
 import { SEARCH } from '../../../../graphql/event';
-import ImageNotFound from '../../../../assets/avatar.png';
 import ResultSearch from './ResultSearch';
 import ModalEvent from '../../Modal/ModalEvent';
-import moment from 'moment';
 
 import 'semantic-ui-css/semantic.min.css';
 import 'moment/locale/es-mx';

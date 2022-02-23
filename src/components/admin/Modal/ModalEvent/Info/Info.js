@@ -23,9 +23,13 @@ export default function Info(props) {
 
             <div>
                 <label>Abono: </label>
-                <label>${getEventById.initPayment}</label>
+                <label>${getEventById.reservePayment}</label>
             </div>
 
+            <div>
+                <label>Valor por hora: </label>
+                <label>${getEventById.hourPayment}</label>
+            </div>
             <div>
                 <label>Total a pagar: </label>
                 <label>${getEventById.totalPayment}</label>

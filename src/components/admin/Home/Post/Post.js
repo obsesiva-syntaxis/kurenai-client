@@ -8,9 +8,7 @@ import './Post.scss';
 
 export default function Post( props ) {
   const { auth } = props;
-  
   const { data, loading, startPolling, stopPolling, refetch } = useQuery(GET_POSTS);
-
 
   useEffect(() => {
     startPolling(1000);

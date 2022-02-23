@@ -10,10 +10,7 @@ export const CREATE_EVENT = gql`
 
 export const DELETE_EVENT = gql`
     mutation deleteEvent( $id: ID! ){
-        deleteEvent( id: $id ){
-            name
-            id
-        }
+        deleteEvent( id: $id )
     }
 `;
 
@@ -31,7 +28,8 @@ export const GET_EVENT = gql`
             end
             title
             insta
-            initPayment
+            reservePayment
+            hourPayment
             totalPayment
             desc
             user {
