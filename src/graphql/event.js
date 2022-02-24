@@ -80,6 +80,7 @@ export const LAST_EVENTS_ADDED = gql`
         lastEventsAdded {
             id
             title
+            bgColor
             insta
             user {
                 name
@@ -113,6 +114,7 @@ export const TODAY = gql`
             insta
             hours
             desc
+            bgColor
             phoneNumber
             user {
                 name
@@ -129,6 +131,7 @@ export const TOMORROW = gql`
             title
             insta
             hours
+            bgColor
             desc
             phoneNumber
             user {

@@ -4,8 +4,8 @@ import fetch from 'node-fetch';
 import { setContext } from 'apollo-link-context'
 
 const httpLink = createUploadLink({
-    // uri: 'http://localhost:4000/graphql',
-    uri: 'https://kurenai-server-app.herokuapp.com/graphql',
+    uri: 'http://localhost:4000/graphql',
+    // uri: 'https://kurenai-server-app.herokuapp.com/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

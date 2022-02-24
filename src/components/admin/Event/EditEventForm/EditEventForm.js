@@ -155,7 +155,7 @@ export default function EditEventForm(props) {
                     <div className="section__input-group">
                         {/* {formik.touched.birdDate && formik.errors.birdDate ? (<label className="section__input-group-alert">{formik.errors.birdDate}</label>) : (<label className="section__input-group-text">Fecha de nacimiento</label>)} */}
                         <label className="section__input-group-text">Fecha de nacimiento</label>
-                        <input className="center" type="date" name="birdDate" onBlur={formik.handleBlur} value={formik.values.birdDate} onChange={formik.handleChange} />
+                        <input className="center" type="date" name="birdDate" onBlur={formik.handleBlur} value={formik.values.birdDate}  onChange={formik.handleChange} />
                     </div>
                 </div>
                 <div className="new-event-form__event-s2">
@@ -173,12 +173,12 @@ export default function EditEventForm(props) {
                         {/* <input className="event__input" type="text" name="address" value="Bruno Salas Ink" onBlur={formik.handleBlur} disabled onChange={formik.handleChange} /> */}
                         <select name="bgColor" value={formik.values.bgColor} onChange={formik.handleChange}>
                             <option value="#DC143C" >Bruno Salas Ink</option>
-                            {/* <option value="#663399" >Mario CTM Ink</option> */}
+                            <option value="#663399" >Mario CTM Ink</option>
                         </select>
                     </div>
                     <div className="section__input-group">
                         <label className="section__input-group-text">Fecha del tatuaje</label>
-                        <input className="center" type="text" name="start" onBlur={formik.handleBlur} value={formik.values.start} disabled onChange={formik.handleChange} />
+                        <input className="center" type="text" name="start" onBlur={formik.handleBlur} value={moment(getEvent.getEventById.start).format('dddd D [de] MMMM [del] YYYY')}  disabled onChange={formik.handleChange} />
                     </div>
 
                     <div className="section__input-group">

@@ -139,7 +139,7 @@ export default function NewEvent( props ) {
                         <label className="section__input-group-text">Tatuador</label>
                         <select name="bgColor" value={formik.values.bgColor} onChange={formik.handleChange}>
                             <option value="#DC143C" >Bruno Salas Ink</option>
-                            {/* <option value="#663399" >Mario CTM Ink</option> */}
+                            <option value="#65ced7" >Mario CTM Ink</option>
                         </select>
                     </div>
                     <div className="section__input-group">

@@ -12,9 +12,7 @@ export default function Auth() {
         <div className="auth">
             <div className="auth__container">
                 <div className="auth__container-card">
-                    <h1>
-                        Kurenai
-                    </h1>
+                    <div className="auth__container-card-logo" />
 
                     <LoginForm />    
 

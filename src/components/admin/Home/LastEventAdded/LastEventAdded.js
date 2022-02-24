@@ -49,7 +49,7 @@ export default function LastEventAdded() {
                 <div className="last-event-added__box">
                     {
                         map(lastEventsAdded, (event, index) => (
-                            <div key={index} className="last-event-added__box-index" onClick={() => handleEventSelected(event)}>
+                            <div key={index} className="last-event-added__box-index" style={ { backgroundColor: `${event.bgColor}`, opacity: '0.8'} } onClick={() => handleEventSelected(event)} >
                                 <div className="last-event-added__box-index-avatar" style={{ backgroundImage: `url('${event.user.avatarUrl}')` }} />
                                 <p>Evento: {event.title}</p>
                                 <p>Instagram: {event.insta}</p>
