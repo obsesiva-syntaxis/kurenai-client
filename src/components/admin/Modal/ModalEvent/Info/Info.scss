@@ -75,7 +75,8 @@
         border-radius: .5rem;
         background: linear-gradient(-45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
         background-size: 400% 400%;
-    	animation: gradient 5s ease infinite;
+    	animation: gradient 4s ease infinite;
+        animation-direction: alternate;
         color: #fff;
         filter: drop-shadow(0 0 0.5rem rgb(86, 85, 85));
         transition: all .5s ease;

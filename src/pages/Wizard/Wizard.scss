@@ -1,0 +1,78 @@
+@mixin crystalized {
+    background: rgba(211, 8, 8, 0.2);
+    border-radius: .5rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.crystal {
+    padding-top: 0.1px;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(45deg, #fa787880 10%, transparent 10%),
+        linear-gradient(65deg, transparent 70%, rgba(250, 120, 120, 0.5) 70%),
+        linear-gradient(15deg, rgba(250, 120, 120, 0.5) 80%, transparent 80%),
+        linear-gradient(25deg, rgba(250, 120, 120, 0.5) 30%, transparent 30%),
+        linear-gradient(-35deg, rgba(250, 120, 120, 0.5) 50%, transparent 50%), rgba(250, 120, 120, 0.5);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 80vh 20vh;
+
+    &-main {
+        @include crystalized;
+        grid-column: 2/3;
+        grid-row: 1/2;
+        width: 70rem;
+        height: 55rem;
+        margin: 1rem auto;
+    }
+
+    &-sidebar {
+        grid-column: 1/2;
+        grid-row: 1/2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10rem 0;
+
+        button {
+            @include crystalized;
+            width: 25rem;
+            height: 5rem;
+        }
+    }
+
+    &-footer {
+        grid-column: 2/3;
+        grid-row: 2/3;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 15rem;
+
+        button {
+            width: 5rem;
+            height: 5rem;
+            @include crystalized;
+            border-radius: 50%;
+        }
+    }
+}
+
+@keyframes hue-rotate {
+    from {
+        -webkit-filter: hue-rotate(0);
+        -moz-filter: hue-rotate(0);
+        -ms-filter: hue-rotate(0);
+        filter: hue-rotate(0);
+    }
+    to {
+        -webkit-filter: hue-rotate(360deg);
+        -moz-filter: hue-rotate(360deg);
+        -ms-filter: hue-rotate(360deg);
+        filter: hue-rotate(360deg);
+    }
+}
