@@ -184,7 +184,6 @@ export default function EditEventForm(props) {
                     <div className="section__input-group">
                         <label className="section__input-group-text">Descripción:</label>
                         <textarea className="section__input-group-textarea" type="text" name="desc" onBlur={formik.handleBlur} value={formik.values.desc} onChange={formik.handleChange} cols="1" rows="1"></textarea>
-                        {/* <input className="event__input center" type="text" name="start" onBlur={formik.handleBlur} value={date} disabled onChange={formik.handleChange} /> */}
                     </div>
 
                 </div>
@@ -199,11 +198,10 @@ export default function EditEventForm(props) {
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="reservePayment" value={formik.values.reservePayment} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        {formik.touched.totalPayment && formik.errors.hourPayment ? (<label className="section__input-group-alert">{formik.errors.hourPayment}</label>) : (<label className="section__input-group-text">Valor por hora</label>)}
+                        {formik.touched.totalPayment && formik.errors.hourPayment ? (<label className="section__input-group-alert">{formik.errors.hourPayment}</label>) : (<label className="section__input-group-text">Sesión</label>)}
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hourPayment" value={formik.values.hourPayment} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        {/* {formik.touched.totalPayment && formik.errors.totalPayment ? (<label className="section__input-group-alert">{formik.errors.totalPayment}</label>) : (<label className="section__input-group-text">Total a pagar</label>)} */}
                         <label className="section__input-group-text">Total a pagar</label>
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="totalPayment" value={ formik.values.totalPayment } placeholder={ formik.values.hourPayment - formik.values.reservePayment } onChange={formik.handleChange} disabled />
                     </div>

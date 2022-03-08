@@ -29,7 +29,6 @@ export default function PostForm( props ) {
                     }
                 }
             });
-            console.log(result);
             refetch();
             resetForm();
         }

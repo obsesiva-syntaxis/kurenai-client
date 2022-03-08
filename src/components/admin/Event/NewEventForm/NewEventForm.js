@@ -17,21 +17,7 @@ export default function NewEvent( props ) {
     const { auth } = useAuth();
 
     //HOOKS INIT
-    const [createEvent] = useMutation(CREATE_EVENT
-    //     , {
-    //     update(cache, { data: { createEvent } }) {
-    //         //obtener el objeto de cache
-    //         const { getEvents } = cache.readQuery({ query: GET_EVENTS })
-    //         //reescribir ese objeto
-    //         cache.writeQuery({
-    //             query: GET_EVENTS,
-    //             data: {
-    //                 getEvents: [...getEvents, createEvent]
-    //             }
-    //         })
-    //     }
-    // }
-    );
+    const [createEvent] = useMutation(CREATE_EVENT);
 
     const formik = useFormik({
         initialValues: initialValues(),
@@ -47,13 +33,15 @@ export default function NewEvent( props ) {
             birdDate: Yup.date(),
             phoneNumber: Yup.string(),
             hours: Yup.number().required('Debe ingresar un mínimo').positive('Debe ser un valor positivo').integer('Debe ser un numero entero'),
+            arrival: Yup.string().required('Debe ingresar una hora'),
         }),
         onSubmit: async values => {
-            // console.log(values);
+            
+            const timeArrival = values.arrival.split(':');
             const finalValues = {
                 ...values,
-                start: moment(dateSelected).hours(11).format(),
-                end: moment(dateSelected).hours(11).add(values.hours, 'h').format(),
+                start: moment(dateSelected).hours(timeArrival[0]).minutes(timeArrival[1]).format(),
+                end: moment(dateSelected).hours(parseInt(timeArrival[0]) + values.hours).minutes(timeArrival[1]).format(),
                 birdDate: !values.birdDate === '' ? moment(values.birdDate) : null,
                 imgUrl: '',
                 user: auth.id,
@@ -61,6 +49,7 @@ export default function NewEvent( props ) {
                 reservePayment: values.reservePayment,
                 hourPayment: values.hourPayment,
             }
+            delete finalValues.arrival;
             try {
                 await createEvent({
                     variables: {
@@ -156,6 +145,10 @@ export default function NewEvent( props ) {
                 <div className="new-event-form__event-s3">
                     <h2 className="section__title">Gestión</h2>
                     <div className="section__input-group">
+                        {formik.touched.arrival && formik.errors.arrival ? (<label className="section__input-group-alert">{formik.errors.arrival}</label>) : (<label className="section__input-group-text">Hora de llegada</label>)}
+                        <input className="section__input-group-integer" type="time" onBlur={formik.handleBlur} name="arrival" value={formik.values.arrival} onChange={formik.handleChange} />
+                    </div>
+                    <div className="section__input-group">
                         {formik.touched.hours && formik.errors.hours ? (<label className="section__input-group-alert">{formik.errors.hours}</label>) : (<label className="section__input-group-text">Horas estimadas</label>)}
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hours" value={formik.values.hours} onChange={formik.handleChange} />
                     </div>
@@ -164,7 +157,7 @@ export default function NewEvent( props ) {
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="reservePayment" value={formik.values.reservePayment} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        {formik.touched.hourPayment && formik.errors.hourPayment ? (<label className="section__input-group-alert">{formik.errors.hourPayment}</label>) : (<label className="section__input-group-text">Valor por hora</label>)}
+                        {formik.touched.hourPayment && formik.errors.hourPayment ? (<label className="section__input-group-alert">{formik.errors.hourPayment}</label>) : (<label className="section__input-group-text">Sesión</label>)}
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hourPayment" value={formik.values.hourPayment} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
@@ -200,5 +193,6 @@ function initialValues() {
         phoneNumber: '',
         desc: '',
         hours: '',
+        arrival: '',
     }
 }

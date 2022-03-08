@@ -32,6 +32,7 @@ export const GET_EVENT = gql`
             hourPayment
             totalPayment
             desc
+            bgColor
             user {
                 id
                 name
@@ -50,17 +51,6 @@ export const GET_EVENTS = gql`
             start
             end
             bgColor
-            # insta
-            # imgUrl
-            # initPayment
-            # totalPayment
-            # name
-            # bgColor
-            # rut
-            # email
-            # address
-            # birdDate
-            # phoneNumber
         }
     }
 `;

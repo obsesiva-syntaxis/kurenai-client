@@ -20,7 +20,7 @@ import { GET_EVENTS } from '../../graphql/event';
 import ModalEvent from '../../components/admin/Modal/ModalEvent';
 import NewEventForm from '../../components/admin/Event/NewEventForm';
 import EditEventForm from '../../components/admin/Event/EditEventForm';
-
+import { parseDateEvents } from '../../functions/parseDateEvents'
 
 import './Calendar.scss';
 //Sweet Alert Library | Doc: https://sweetalert2.github.io/#usage
@@ -63,6 +63,7 @@ export default function AdmCalendar() {
     if (loading) return null;
     const { getEvents } = data;
 
+    const parseEvents = parseDateEvents(getEvents);
 
     const eventStyleGetter = (event) => {
         const style = {
@@ -110,7 +111,7 @@ export default function AdmCalendar() {
                     className="calendar__main"
                         selectable={ true }
                         localizer={ localizer }
-                        events={ getEvents }
+                        events={ parseEvents }
                         startAccessor="start"
                         endAccessor="end"
                         messages={ messages }
@@ -118,7 +119,7 @@ export default function AdmCalendar() {
                         onDoubleClickEvent={ onDoubleclick }
                         onSelectEvent={ onSelectEvent }
                         onSelectSlot={ onSelectSlot }
-                        views={['month']}
+                        views={['month', 'day']}
                     /> : handleEvent
             }
 

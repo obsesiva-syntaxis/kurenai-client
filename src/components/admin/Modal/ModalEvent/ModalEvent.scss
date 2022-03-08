@@ -28,33 +28,6 @@
         padding: 25px;
         grid-column: 1/2;
         grid-row: 2/3;
-
-        div {
-            display: flex;
-            justify-content: space-between;
-
-            label {
-                padding: 5px;
-                font-family: $font-info;
-            }
-            
-            label:first-child {
-                font-weight: bold;
-            }
-            
-            p {
-                font-family: $font-info;
-                margin-top: 0;
-                margin-bottom: 0;
-                width: 20rem;
-                height: 5rem;
-                padding: .5rem;
-                overflow: auto;
-                overflow-x: hidden;
-                text-align: right;
-            }
-        }
-        
     }
 
     &__footer {

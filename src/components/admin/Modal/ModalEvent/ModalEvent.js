@@ -43,6 +43,7 @@ export default function ModalEvent(props) {
                 break;
         }
     }
+    
 
     const handleDeleteEvent = () => {
         Swal.fire({

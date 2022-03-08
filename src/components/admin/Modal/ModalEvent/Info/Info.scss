@@ -1,5 +1,191 @@
-@import '../../../../../styles/style.scss';
+@import "../../../../../styles/style.scss";
 
 .info {
-    
+    width: 100%;
+    height: 100%;
+    // background: rgba(0, 0, 0, 0.211);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    &__event {
+        width: 100%;
+        border-radius: 0.5rem;
+        filter: drop-shadow(0 0 0.5rem rgb(86, 85, 85));
+        padding: 0 .5rem ;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+
+        &-section {
+            
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            font-family: $font-title;
+            // height: 3rem;
+
+            label {
+                display: block;
+            }
+
+            &-title {
+                
+                width: 100%;
+                color: #fff;
+
+                text-align: center;
+                border-radius: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            &-date {
+                text-transform: capitalize;
+            }
+
+            &-desc {
+                width: 100%;
+                margin-top: 1rem;
+                // border: 1px solid #fff;
+                text-align: center;
+                
+                label {
+                    font-family: $font-title;
+                    justify-self: center;
+                }
+
+                p {
+                    font-family: $font-info;
+                    height: 5rem;
+                    text-align: left;
+                }
+            }
+
+            &-user {
+                width: 100%;
+                text-align: center;
+                font-size: 1rem;
+                letter-spacing: .5rem;
+            }
+        }
+    }
+
+    &__client {
+        padding: .5rem;
+        border-radius: .5rem;
+        background: linear-gradient(-45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
+        background-size: 400% 400%;
+    	animation: gradient 5s ease infinite;
+        color: #fff;
+        filter: drop-shadow(0 0 0.5rem rgb(86, 85, 85));
+        transition: all .5s ease;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.01);
+            transition: .5s all ease;
+            cursor: pointer;
+            filter: drop-shadow(0 0 1rem rgb(226, 236, 29));
+        }
+
+        &-title {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+
+            &-insta {
+                width: 10rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                font-family: $font-title;
+                i {
+                    display: inline-block;
+                    font-size: 2rem;
+                }
+                
+                p {
+                    display: inline-block;
+                    margin-left: 0.3rem;
+                }
+            }
+        }
+
+        &-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+            font-family: $font-title;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &-first {
+
+                label{
+                    display: block;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            &-second {
+                align-self: baseline;
+                label{
+                    display: block;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    &__payment {
+        padding: 1rem;
+        border-radius: .5rem;
+        background-color: #238B57;
+        filter: drop-shadow(0 0 0.5rem rgb(86, 85, 85));
+        color: #fff;
+        
+        
+        &-section {
+            font-family: $font-title;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #fff;
+
+            
+            label {
+                display: inline;
+            }
+        }
+
+        &-total {
+            margin-top: 1rem;
+            text-align: right;
+            font-family: $font-title;
+            font-size: 2rem;
+        }
+    }
+}
+
+.text-info {
+    font-family: $font-info;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
