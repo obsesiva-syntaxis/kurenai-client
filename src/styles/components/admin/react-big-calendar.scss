@@ -132,10 +132,21 @@ button.rbc-input::-moz-focus-inner {
 
 //dia de hoy
 .rbc-today {
-    border-bottom-color: rgb(190, 220, 20);
-    border-bottom-style: solid;
+    position: relative;
+    top: 0;
+    // outline: .5rem solid rgb(190, 220, 20);
+    // border-top-color: rgb(190, 220, 20);
+    // border-top-style: solid;
+    // border-top-width: 1.9rem;
     // box-shadow: -3px -3px -15px -3px crimson;
-    border-radius: 3px;
+    // border-radius: 0px .3rem .3rem 0;
+}
+
+.rbc-today::after {
+    content: '';
+    // border-top-color: rgb(190, 220, 20);    
+    // border-top-style: solid;
+    // border-top-width: 1.9rem;
 }
 
 .rbc-toolbar {
@@ -384,7 +395,7 @@ button.rbc-input::-moz-focus-inner {
     // background: #000;
 }
 .rbc-day-bg:hover {
-    background: #dc143c86;
+    // background: #dc143c86;
 }
 
 .rbc-day-bg + .rbc-day-bg {
@@ -474,10 +485,12 @@ button.rbc-input::-moz-focus-inner {
     // height: 150px;
 }
 
+//Day mode
 .rbc-time-column {
     display: flex;
     flex-direction: column;
-    height: 300px;
+    height: 50rem;
+    overflow: auto;
     // background: #000;
 }
 .rbc-time-column .rbc-timeslot-group {
@@ -487,7 +500,7 @@ button.rbc-input::-moz-focus-inner {
 
 .rbc-timeslot-group {
     border-bottom: 1px solid #ddd;
-    min-height: 20px;
+    min-height: 5px;
     display: flex;
     flex-flow: column nowrap;
 }
@@ -498,42 +511,51 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-label {
-    padding: 0 5px;
+    padding: 0;
     // margin-bottom: 100px;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     // background: #000;
 }
 
 .rbc-day-slot {
     position: relative;
+    // height: 100vh;
 }
 
 .rbc-day-slot .rbc-events-container {
+    width: 100%;
     bottom: 0;
     left: 0;
     position: absolute;
     right: 0;
-    // margin-right: 10px;
+    // width: 15rem;
     top: 0;
+    // display: block;
+    // margin-right: 10px;
     // background: #000;
 }
+.rbc-day-slot .rbc-events-container .rbc-event {
+    width: 100px;
+}
+
 .rbc-day-slot .rbc-events-container.rbc-rtl {
-    left: 10px;
+    left: 0;
     right: 0;
     // background: #000;
 }
+
 .rbc-day-slot .rbc-event,
 .rbc-day-slot .rbc-background-event {
     border: 1px solid #265985;
     display: flex;
-    max-height: 100%;
+    max-height: 50px;
     min-height: 20px;
     flex-flow: column wrap;
     align-items: flex-start;
     overflow: hidden;
     position: absolute;
-    background: #000;
+    // background: #000;
 }
 .rbc-day-slot .rbc-background-event {
     // opacity: 0.75;
@@ -547,7 +569,7 @@ button.rbc-input::-moz-focus-inner {
     padding-right: 5px;
     width: 100%;
     height: 15px;
-    background: #000;
+    // background: #000;
     border-radius: 3px;
 }
 .rbc-day-slot .rbc-event-content {
@@ -631,6 +653,7 @@ button.rbc-input::-moz-focus-inner {
     cursor: move;
 }
 
+//styler modmo día
 .rbc-time-view {
     display: flex;
     flex-direction: column;
@@ -718,13 +741,9 @@ button.rbc-input::-moz-focus-inner {
 }
 .rbc-time-content > .rbc-time-gutter {
     flex: none;
-    // display: block;
-    // background: #000;
-    // margin-bottom: 5px;
 }
 .rbc-time-content > * + * > * {
     border-left: 1px solid #ddd;
-    // background: #000;
 }
 .rbc-rtl .rbc-time-content > * + * > * {
     border-left-width: 0;
@@ -744,9 +763,10 @@ button.rbc-input::-moz-focus-inner {
     right: 0;
     height: 2px;
     width: 100%;
-    // margin-left: -950px;
-    // margin-right: 700px;
     background-color: #74ad31;
     pointer-events: none;
-    // background: #000;
+}
+
+.rbc-day-slot .rbc-events-container .rbc-event {
+    width: 15rem !important;
 }

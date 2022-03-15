@@ -3,8 +3,9 @@ import React from 'react';
 import './Wizard.scss';
 
 export default function Wizard() {
+
     return (
-        <div className="crystal">
+        <div className="crystal" id="game-wrapper">
             <div className="crystal-main">
             </div>
 

@@ -1,5 +1,5 @@
 @mixin crystalized {
-    background: rgba(211, 8, 8, 0.2);
+    background: rgba(236, 232, 232, 0.2);
     border-radius: .5rem;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
@@ -11,11 +11,12 @@
     padding-top: 0.1px;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(45deg, #fa787880 10%, transparent 10%),
-        linear-gradient(65deg, transparent 70%, rgba(250, 120, 120, 0.5) 70%),
-        linear-gradient(15deg, rgba(250, 120, 120, 0.5) 80%, transparent 80%),
-        linear-gradient(25deg, rgba(250, 120, 120, 0.5) 30%, transparent 30%),
-        linear-gradient(-35deg, rgba(250, 120, 120, 0.5) 50%, transparent 50%), rgba(250, 120, 120, 0.5);
+    background: linear-gradient(45deg, #53020280 10%, transparent 10%),
+        linear-gradient(65deg, transparent 70%, rgba(57, 10, 10, 0.5) 70%),
+        linear-gradient(15deg, rgba(194, 12, 12, 0.5) 80%, transparent 80%),
+        linear-gradient(25deg, rgba(206, 0, 0, 0.5) 30%, transparent 30%),
+        linear-gradient(-35deg, rgba(57, 27, 27, 0.5) 50%, transparent 50%), rgba(250, 120, 120, 0.5);
+    animation: animate 10s linear infinite;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 80vh 20vh;
@@ -75,4 +76,16 @@
         -ms-filter: hue-rotate(360deg);
         filter: hue-rotate(360deg);
     }
+}
+
+@keyframes crystalEffect {
+    0%{
+      filter: hue-rotate(0deg)
+    }
+    50%{
+      filter: hue-rotate(360deg)
+    }  
+    100%{
+      filter: hue-rotate(0deg)
+    }  
 }

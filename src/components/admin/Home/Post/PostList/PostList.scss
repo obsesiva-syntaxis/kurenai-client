@@ -52,7 +52,7 @@
     
             label {
                 align-content: justify;
-                font-size: 20px;
+                font-size: 2rem;
             }
         }
 
@@ -81,3 +81,31 @@
     }
 }
 
+@media screen and ( max-width: 600px ) {
+    .post-list {
+        &__box {
+            img {
+                display: none;
+            }
+
+            &-username {
+                margin: 0;
+                padding-left: .5rem;
+            }
+
+            &-msg {
+                margin: 0;
+                padding-left: .5rem;
+                
+                label {
+                    font-size: 1.5rem;
+                }
+            }
+
+            &-time {
+                font-size: 1rem;
+
+            }
+        }
+    }
+}

@@ -77,13 +77,14 @@ export default function AdmCalendar() {
     }
 
     const onDoubleclick = (event) => {
+        
+    }
+
+    const onSelectEvent = (event) => {
         const { id } = event;
         setEventSelected( id );
         setFrom('calendar')
         setShowModal(true);
-    }
-
-    const onSelectEvent = (event) => {
     }
 
     const onSelectSlot = (event) => {

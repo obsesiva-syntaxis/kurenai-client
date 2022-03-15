@@ -8,16 +8,13 @@
     height: 100%;
     overflow: hidden;
     gap: 10px;
-
-    // &__first {
-    //     grid-column: 1/2;
-    // }    
-    // &__second {
-    //     grid-column: 2/3;
-    // }    
-    // &__third {
-    //     grid-column: 3/4;
-    // }
 }
 
 
+@media screen and ( max-width: 600px ){
+    .header {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+}

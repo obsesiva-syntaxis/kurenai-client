@@ -1,4 +1,4 @@
-import React from 'react'; //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
+import React, { useState } from 'react'; //React Library | Doc: https://es.reactjs.org/docs/getting-started.html
 import moment from 'moment'; //Moment Library | Doc: https://momentjs.com/docs/
 import { useFormik } from 'formik'; //Formik Library | Doc: https://formik.org/docs/overview
 import { useMutation } from '@apollo/client'; //Apollo Syntax | Doc: https://www.apollographql.com/docs/
@@ -12,9 +12,11 @@ import './NewEventForm.scss';
 
 moment.locale('Es-mx');
 
-export default function NewEvent( props ) {
+export default function NewEvent(props) {
     const { dateSelected, setHandleEvent, setDateSelected, refetch } = props;
     const { auth } = useAuth();
+    const [payment, setPayment] = useState(false);
+    const [btnPayment, setBtnPayment] = useState('Sin Confirmar');
 
     //HOOKS INIT
     const [createEvent] = useMutation(CREATE_EVENT);
@@ -24,19 +26,19 @@ export default function NewEvent( props ) {
         validationSchema: Yup.object({
             insta: Yup.string().required('Instagram es obligatorio.'),
             title: Yup.string().required('Titulo del evento es obligatorio.'),
-            reservePayment: Yup.number().required('Debe existir el pago inicial.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
-            hourPayment: Yup.number().required('Debe existir el pago inicial.').positive('Debe ser un numero positivo.').integer('Debe ser un numero entero'),
+            reservePayment: Yup.number().integer('Debe ser un numero entero'),
+            hourPayment: Yup.number().integer('Debe ser un numero entero'),
             rut: Yup.string(),
             name: Yup.string(),
             email: Yup.string().email('Debe ser un email válido.'),
             address: Yup.string(),
             birdDate: Yup.date(),
             phoneNumber: Yup.string(),
-            hours: Yup.number().required('Debe ingresar un mínimo').positive('Debe ser un valor positivo').integer('Debe ser un numero entero'),
+            hours: Yup.number().required('Debe ingresar un mínimo').integer('Debe ser un numero entero'),
             arrival: Yup.string().required('Debe ingresar una hora'),
         }),
         onSubmit: async values => {
-            
+
             const timeArrival = values.arrival.split(':');
             const finalValues = {
                 ...values,
@@ -82,6 +84,21 @@ export default function NewEvent( props ) {
     const handleReturn = () => {
         setDateSelected('');
         setHandleEvent('');
+    }
+
+    const handlePayment = () => {
+        setPayment(!payment);
+        payment ? setBtnPayment('Sin Confirmar') : setBtnPayment('Agregar');
+        if(!payment){
+            console.log(formik.values);
+            formik.values.hourPayment = 0;
+            formik.values.reservePayment = 0;
+            formik.values.totalPayment = '';
+        }else{
+            formik.values.hourPayment = '';
+            formik.values.reservePayment = '';
+            formik.values.totalPayment = '';
+        }
     }
 
     return (
@@ -152,21 +169,36 @@ export default function NewEvent( props ) {
                         {formik.touched.hours && formik.errors.hours ? (<label className="section__input-group-alert">{formik.errors.hours}</label>) : (<label className="section__input-group-text">Horas estimadas</label>)}
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hours" value={formik.values.hours} onChange={formik.handleChange} />
                     </div>
-                    <div className="section__input-group">
-                        {formik.touched.reservePayment && formik.errors.reservePayment ? (<label className="section__input-group-alert">{formik.errors.reservePayment}</label>) : (<label className="section__input-group-text">Pago inicial</label>)}
-                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="reservePayment" value={formik.values.reservePayment} onChange={formik.handleChange} />
-                    </div>
-                    <div className="section__input-group">
-                        {formik.touched.hourPayment && formik.errors.hourPayment ? (<label className="section__input-group-alert">{formik.errors.hourPayment}</label>) : (<label className="section__input-group-text">Sesión</label>)}
-                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hourPayment" value={formik.values.hourPayment} onChange={formik.handleChange} />
-                    </div>
-                    <div className="section__input-group">
-                        <label className="section__input-group-text">Total a pagar</label>
-                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="totalPayment" value={formik.values.totalPayment} placeholder={formik.values.hourPayment - formik.values.reservePayment} onChange={formik.handleChange} disabled />
-                    </div>
+                    <fieldset className="new-event-form__event-s3-payment">
+                        <legend> Pagos </legend>
+                        <div className="new-event-form__event-s3-payment-group">
+                            {formik.touched.reservePayment && formik.errors.reservePayment ? (<label className="section__input-group-alert">{formik.errors.reservePayment}</label>) : (<label className="section__input-group-text">Pago inicial</label>)}
+                            <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="reservePayment" value={formik.values.reservePayment} onChange={formik.handleChange} disabled={ payment } />
+                        </div>
+                        <div className="section__input-group">
+                            {formik.touched.hourPayment && formik.errors.hourPayment ? (<label className="section__input-group-alert">{formik.errors.hourPayment}</label>) : (<label className="section__input-group-text">Sesión</label>)}
+                            <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hourPayment" value={formik.values.hourPayment} onChange={formik.handleChange} disabled={ payment }/>
+                        </div>
+                        <div className="section__input-group">
+                            <label className="section__input-group-textPayment">Total a pagar : ${formik.values.hourPayment -formik.values.reservePayment}</label>
+                            {/* <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="totalPayment" value={formik.values.totalPayment} placeholder={formik.values.hourPayment - formik.values.reservePayment} onChange={formik.handleChange} disabled={true} /> */}
+                        </div>
+                        {
+                            payment ? 
+                            (
+                                <button type="button" onClick={ () => handlePayment() } style={{ backgroundColor: '#3a8b34'}}>
+                                    { btnPayment }
+                                </button>
+                            ) : (
+                                <button type="button" onClick={ () => handlePayment() } style={{ backgroundColor: 'crimson'}}>
+                                    { btnPayment }
+                                </button>
+                            )
+                        }
+                    </fieldset>
 
-                    <button type="submit" className="new-event-form__event-s3-btn-success">Ingresar</button>
-                    <button onClick={handleReturn} className="new-event-form__event-s3-btn-alert">Regresar</button>
+                    <button type="submit" className="new-event-form__btn-success">Ingresar</button>
+                    <button onClick={handleReturn} className="new-event-form__btn-alert">Regresar</button>
                 </div>
             </div>
         </form>
@@ -175,7 +207,7 @@ export default function NewEvent( props ) {
 }
 
 function initialValues() {
-    return { 
+    return {
         insta: '',
         title: '',
         imgUrl: '',

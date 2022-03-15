@@ -8,20 +8,18 @@ import './LayoutBasic.scss';
 export default function LayoutBasic() {
     return (
 
-        <div className="admin__container">
-            <div className="admin__sidebar">
+        <div className="admin-container">
+            <div className="admin-container__sidebar">
                 <Sidebar />
             </div>
 
-            <div className="admin__main">
-
-                <div className="admin__header">
+            <div className="admin-container__main">
+                <div className="admin-container__main-header">
                     <Header />
                 </div>
-                <div className="admin__body">
+                <div className="admin-container__main-body">
                     <Outlet />
                 </div>
-
             </div>
         </div>
 

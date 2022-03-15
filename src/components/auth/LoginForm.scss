@@ -75,3 +75,25 @@
     }
 }
 
+@media screen and ( max-width: 600px ){
+    .login-form {
+        padding: 0;
+
+        &__input-group {
+            input {
+                width: 95vw;
+            }
+        }
+
+        &__btn {
+            width: 95vw;
+            display: inline;
+
+            &:active { display: inline; }
+            &:focus { display: inline; }
+            &:target { display: inline; }
+            &:visited { display: inline; }
+        }
+    }
+}
+

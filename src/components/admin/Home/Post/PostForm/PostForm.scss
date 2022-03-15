@@ -5,7 +5,7 @@
     grid-template-columns: 1fr 15rem;
     grid-template-rows: 1fr;
     width: 100%;
-    gap: .5rem;
+    gap: 0.5rem;
     padding: 5px;
 
     &__textbox {
@@ -56,6 +56,43 @@
             background: #dc143c;
             color: #fff;
             // box-shadow: 0px 0px -5px -2px crimson;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .post-form {
+        display: grid;
+        grid-template-columns: 1fr 7rem;
+        grid-template-rows: 1fr;
+
+
+        &__textbox {
+            height: 100%;
+            width: 100%;
+            overflow-y: hidden;
+
+            &::placeholder {
+                font-family: $font-title;
+                font-size: 1.5rem;
+                color: #dc143c;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        &__btn {
+            margin-top: 1.25rem;
+            height: 3.5rem;
+            width: 7rem;
+           
+    
+            &:hover {
+                // outline: 1.5px solid #dc143c;
+                background: #dc143c;
+                color: #fff;
+                // box-shadow: 0px 0px -5px -2px crimson;
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'; //Sweet Alert Library | Doc: https://sweetalert2
 import useAuth from '../../../../hooks/useAuth';
 
 import 'moment/locale/es-mx';
+import './EditEventForm.scss';
 moment.locale('Es-mx');
 
 export default function EditEventForm(props) {
@@ -60,6 +61,7 @@ export default function EditEventForm(props) {
         }
     });
 
+
     const formik = useFormik({
         initialValues: initialValues(getEvent),
         validationSchema: Yup.object({
@@ -74,12 +76,13 @@ export default function EditEventForm(props) {
             phoneNumber: Yup.string(),
             desc: Yup.string(),
             hours: Yup.number(),
+            arrival: Yup.string(),
         }),
         onSubmit: async values => {
-
+            const timeArrival = values.arrival.split(':');
             const finalValues = {
                 ...values,
-                start: moment(getEvent.getEventById.start).format(),
+                start: moment(getEvent.getEventById.start).hours(timeArrival[0]).minutes(timeArrival[1]).format(),
                 end: moment(getEvent.getEventById.start).add(values.hours, 'h').format(),
                 birdDate: values.birdDate ? moment(values.birdDate).format() : null,
                 imgUrl: '',
@@ -89,7 +92,7 @@ export default function EditEventForm(props) {
                 hourPayment: values.hourPayment,
                 reservePayment: values.reservePayment,
             }
-            console.log(finalValues);
+            delete finalValues.arrival;
 
             try {
                 await updateEvent({
@@ -128,9 +131,9 @@ export default function EditEventForm(props) {
         setShowModal(true);
     }
     return (
-        <form className="new-event-form" onSubmit={formik.handleSubmit}>
-            <div className="new-event-form__event">
-                <div className="new-event-form__event-s1">
+        <form className="edit-event-form" onSubmit={formik.handleSubmit}>
+            <div className="edit-event-form__event">
+                <div className="edit-event-form__event-s1">
                     <h2 className="section__title">Datos personales</h2>
                     <div className="section__input-group">
                         {formik.touched.rut && formik.errors.rut ? (<label className="section__input-group-alert">{formik.errors.rut}</label>) : (<label className="section__input-group-text">Rut</label>)}
@@ -158,7 +161,7 @@ export default function EditEventForm(props) {
                         <input className="center" type="date" name="birdDate" onBlur={formik.handleBlur} value={formik.values.birdDate}  onChange={formik.handleChange} />
                     </div>
                 </div>
-                <div className="new-event-form__event-s2">
+                <div className="edit-event-form__event-s2">
                     <h2 className="section__title">Evento</h2>
                     <div className="section__input-group">
                         {formik.touched.title && formik.errors.title ? (<label className="section__input-group-alert">{formik.errors.title}</label>) : (<label className="section__input-group-text">Nombre del evento</label>)}
@@ -187,8 +190,12 @@ export default function EditEventForm(props) {
                     </div>
 
                 </div>
-                <div className="new-event-form__event-s3">
+                <div className="edit-event-form__event-s3">
                     <h2 className="section__title">Gestión</h2>
+                    <div className="section__input-group">
+                        {formik.touched.arrival && formik.errors.arrival ? (<label className="section__input-group-alert">{formik.errors.arrival}</label>) : (<label className="section__input-group-text">Hora de llegada</label>)}
+                        <input className="section__input-group-integer" type="time" onBlur={formik.handleBlur} name="arrival" value={formik.values.arrival} onChange={formik.handleChange} />
+                    </div>
                     <div className="section__input-group">
                         {formik.touched.hours && formik.errors.hours ? (<label className="section__input-group-alert">{formik.errors.hours}</label>) : (<label className="section__input-group-text">Horas estimadas</label>)}
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hours" value={formik.values.hours} onChange={formik.handleChange} />
@@ -202,12 +209,11 @@ export default function EditEventForm(props) {
                         <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="hourPayment" value={formik.values.hourPayment} onChange={formik.handleChange} />
                     </div>
                     <div className="section__input-group">
-                        <label className="section__input-group-text">Total a pagar</label>
-                        <input className="section__input-group-integer" type="number" onBlur={formik.handleBlur} name="totalPayment" value={ formik.values.totalPayment } placeholder={ formik.values.hourPayment - formik.values.reservePayment } onChange={formik.handleChange} disabled />
+                        <label className="section__input-group-textPayment">Total a pagar: ${formik.values.hourPayment -formik.values.reservePayment}</label>
                     </div>
 
-                    <button type="submit" className="new-event-form__event-s3-btn-success">Ingresar</button>
-                    <button onClick={handleReturn} className="new-event-form__event-s3-btn-alert">Regresar</button>
+                    <button type="submit" className="edit-event-form__btn-success">Ingresar</button>
+                    <button onClick={handleReturn} className="edit-event-form__btn-alert">Regresar</button>
                 </div>
             </div>
         </form>
@@ -234,5 +240,6 @@ function initialValues(getEvent) {
         phoneNumber: getEvent.getEventById.phoneNumber ? getEvent.getEventById.phoneNumber : '',
         desc: getEvent.getEventById.desc ? getEvent.getEventById.desc : '',
         hours: getEvent.getEventById.hours ? getEvent.getEventById.hours : '',
+        arrival: moment(getEvent.getEventById.start).format('HH:mm').toString(),
     }
 }

@@ -36,7 +36,6 @@ export default function Sidebar() {
             <div className="sidebar__icon-group">
 
                 <Link to='/admin'>
-                
                     <i className="sidebar__icon fas fa-home"></i>
                 </Link>
                 {/* <span className="sidebar__item">Calendar</span> */}
@@ -44,7 +43,8 @@ export default function Sidebar() {
 
             <div className="sidebar__icon-group">
                 <Link to='/admin/calendar'>
-                    <i className="sidebar__icon sidebar__icon-calendar fas fa-calendar"></i>
+                    <i className="sidebar__icon fas fa-calendar"></i>
+                    {/* <i class="far fa-address-book"></i> */}
                 </Link>
                 {/* <span className="sidebar__item">Calendar</span> */}
             </div>

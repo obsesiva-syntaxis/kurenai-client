@@ -23,3 +23,23 @@
         grid-row: 2/3;
     }
 }
+
+@media screen and ( max-width: 600px) {
+    .post{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 8rem 1fr;
+        
+
+        &__feed {
+            grid-column: 1/2;
+            grid-row: 2/3;
+        }
+
+        &__form {
+            display: flex;
+            grid-row: 1/2;
+        }
+    }
+}
