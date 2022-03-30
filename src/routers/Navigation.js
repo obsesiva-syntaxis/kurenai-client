@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import routes from './routes';
-import { map } from 'lodash';
-import Landing from '../pages/Landing';
 import Home from '../pages/Home';
 import LayoutBasic from '../layouts/LayoutBasic';
 import Calendar from '../pages/Calendar';
+import Request from '../pages/Request'
 import User from '../pages/User';
 
 export default function Navigation(props) {
@@ -17,6 +15,7 @@ export default function Navigation(props) {
                     <Route index element={<Home />} />
                     <Route path="/admin/user" element={<User />} exact />
                     <Route path="/admin/calendar" element={<Calendar />} exact />
+                    <Route path="/admin/request" element={<Request />} exact />
 
                     <Route path="*" element={<Navigate to="/admin" />} />
                 </Route>

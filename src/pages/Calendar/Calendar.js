@@ -77,7 +77,6 @@ export default function AdmCalendar() {
     }
 
     const onDoubleclick = (event) => {
-        
     }
 
     const onSelectEvent = (event) => {

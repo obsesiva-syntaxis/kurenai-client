@@ -34,25 +34,27 @@ export default function Sidebar() {
         <div className="sidebar">
 
             <div className="sidebar__icon-group">
-
                 <Link to='/admin'>
                     <i className="sidebar__icon fas fa-home"></i>
                 </Link>
-                {/* <span className="sidebar__item">Calendar</span> */}
             </div>
 
             <div className="sidebar__icon-group">
                 <Link to='/admin/calendar'>
-                    <i className="sidebar__icon fas fa-calendar"></i>
-                    {/* <i class="far fa-address-book"></i> */}
+                    <i className="sidebar__icon sidebar__icon-calendar fas fa-calendar"></i>
                 </Link>
-                {/* <span className="sidebar__item">Calendar</span> */}
+            </div>
+
+            <div className="sidebar__icon-group">
+                <Link to='/admin/request'>
+                    <i className="sidebar__icon fas fa-handshake"></i>
+                </Link>
             </div>
             {
                 auth.type === 'overlord' && (
                     <div className="sidebar__icon-group">
                         <Link to='/admin/user'>
-                            <i className="sidebar__icon fas fa-users"></i>
+                            <i className="sidebar__icon  fas fa-users"></i>
                             {/* <i className="sidebar__icon sidebar__icon-calendar far fa-calendar"></i> */}
                         </Link>
                     </div>
