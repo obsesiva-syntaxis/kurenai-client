@@ -50,6 +50,11 @@ export default function Sidebar() {
                     <i className="sidebar__icon fas fa-handshake"></i>
                 </Link>
             </div>
+            <div className="sidebar__icon-group">
+                <Link to='/admin/billing'>
+                <i className="sidebar__icon fas fa-balance-scale"></i>
+                </Link>
+            </div>
             {
                 auth.type === 'overlord' && (
                     <div className="sidebar__icon-group">

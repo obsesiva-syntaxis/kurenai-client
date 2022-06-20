@@ -13,6 +13,8 @@ import * as Yup from 'yup';
 import { useMutation } from '@apollo/client';
 import { AUTH_USER } from '../../graphql/user';
 
+import Loader from '../Loader';
+
 import useAuth from '../../hooks/useAuth';
 import { setToken, decodeToken } from '../../utils/token';
 
@@ -20,11 +22,13 @@ import { setToken, decodeToken } from '../../utils/token';
 import './LoginForm.scss';
 
 export default function LoginForm() {
-    localStorage.setItem('token','');
+    localStorage.setItem('token', '');
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [authUser] = useMutation(AUTH_USER);
     const { setUser } = useAuth();
     const navigate = useNavigate();
+
 
     const formik = useFormik({
         initialValues: initialValues(),
@@ -33,9 +37,10 @@ export default function LoginForm() {
             password: Yup.string().required('El password es obligatorio').min(6, 'Mínimo 6 carácteres')
         }),
         onSubmit: async values => {
+            setLoading(true);
             setError('');
             try {
-                const { data } = await authUser({
+                const { data, loading, error } = await authUser({
                     variables: { input: values }
                 });
                 const { token } = data.authUser;
@@ -46,44 +51,51 @@ export default function LoginForm() {
             } catch (err) {
                 setError(err.message);
             }
+            setLoading(false);
         }
     });
 
     return (
-        <form className="login-form" onSubmit={formik.handleSubmit}>
-            <div className="login-form__input-group">
-                {
-                    formik.touched.email && formik.errors.email ? (
-                        <label className="login-form__input-group-alert">{formik.errors.email}</label>
-                    ) : (
-                        <label className="login__form-text">Email</label>
-
-                    )
-                }
-                <input className="login-form__input-group-input" type="text" id="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-            </div>
-
-            <div className="login-form__input-group">
-                {
-                    formik.touched.password && formik.errors.password ? (
-                        <label className="login-form__input-group-alert">{formik.errors.password}</label>
-                    ) : (
-                        <label className="login-form__input-group-txt">Password</label>
-
-                    )
-                }
-                <input className="login-form__input-group-input" type="password" id="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-            </div>
-
-            <button className="login-form__btn" type="submit">
-                Aceptar
-            </button>
-
+        <>
             {
-                error && <p className="login-form__access-alert">{error}</p>
-            }
+                !loading ? (
+                    <form className="login-form" onSubmit={formik.handleSubmit}>
+                        <div className="login-form__input-group">
+                            {
+                                formik.touched.email && formik.errors.email ? (
+                                    <label className="login-form__input-group-alert">{formik.errors.email}</label>
+                                ) : (
+                                    <label className="login__form-text">Email</label>
 
-        </form>
+                                )
+                            }
+                            <input className="login-form__input-group-input" type="text" id="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                        </div>
+
+                        <div className="login-form__input-group">
+                            {
+                                formik.touched.password && formik.errors.password ? (
+                                    <label className="login-form__input-group-alert">{formik.errors.password}</label>
+                                ) : (
+                                    <label className="login-form__input-group-txt">Password</label>
+
+                                )
+                            }
+                            <input className="login-form__input-group-input" type="password" id="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                        </div>
+
+                        <button className="login-form__btn" type="submit">
+                            Aceptar
+                        </button>
+
+                        {
+                            error && <p className="login-form__access-alert">{error}</p>
+                        }
+
+                    </form>
+                ) : ( <Loader /> )
+        }
+        </>
     )
 }
 

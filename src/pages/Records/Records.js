@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Loader from '../../components/Loader';
 
 export default function () {
     return (
         <div>
-            <h1>Records Page</h1>
+            <Loader />
         </div>
     )
 }
