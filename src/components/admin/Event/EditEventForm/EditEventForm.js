@@ -177,6 +177,7 @@ export default function EditEventForm(props) {
                         <select name="bgColor" value={formik.values.bgColor} onChange={formik.handleChange}>
                             <option value="#DC143C" >Bruno Salas Ink</option>
                             <option value="#663399" >Mario CTM Ink</option>
+                            <option value="#000000" >Shoro Mota</option>
                         </select>
                     </div>
                     <div className="section__input-group">
